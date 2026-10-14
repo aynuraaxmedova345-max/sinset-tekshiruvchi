@@ -1,0 +1,20 @@
+# Shaxsiy va litsenziyali ma'lumotlar — repozitoriyga qo'shilmaydi
+web/data.json
+web/namuna.json
+*.sqlite
+/talabalar/
+/sozlar/
+/guruh/
+/hisobot/
+/ai_sorov/
+/ai_javob/
+*.xlsx
+*.docx
+*.zip
+*.pdf
+!samples/*.xlsx
+
+# Python
+__pycache__/
+*.pyc
+.venv/

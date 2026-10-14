@@ -1,0 +1,1586 @@
+{
+ "talaba": "NAMUNA TALABA",
+ "baholovchi": "AI lingvist (namuna, qo‘lda ishga tushirilgan)",
+ "qatorlar": {
+  "2": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri",
+    "izoh": "inoqlik, totuvlik ham qo‘shilishi mumkin"
+   },
+   "antonim": {
+    "baho": "qisman",
+    "izoh": "«nifoq» mos; «kelishmovchilik» qat’iy antonim emas",
+    "tavsiya": "nifoq, noahillik"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "egalik birikmalari — ahillikning leksik turlari emas",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "giperonimning takrori; butun–qism munosabati emas",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "bular ahillikning qismlari emas, uning shart va belgilari",
+    "tavsiya": "-"
+   }
+  },
+  "3": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "mustaqil ot emas: payg‘ambar ismidan keyin qo‘shiladigan duo formulasi; lug‘atda turkum belgisi berilmagan",
+    "tavsiya": "turkum o‘qituvchi bilan kelishilsin (ibora/formula)",
+    "ishonch": "past"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "tasviriy ibora, leksik giperonim emas",
+    "tavsiya": "-"
+   }
+  },
+  "4": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "«parfyumer suvi» atirning turi emas, yonma-yon tur (kogiponim)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "mahsulotlar sinfi — giperonimga yaqin, butun–qism emas",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "bular atirning emas, idishining qismlari",
+    "tavsiya": "spirt, xushbo‘y moddalar (izohga ko‘ra tarkibi)"
+   }
+  },
+  "5": {
+   "holat": "Ortiqcha qator (birikma) — baholanmadi"
+  },
+  "6": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "«bovar» o‘zi fe’l emas, faqat «bovar qilmoq» qo‘shma fe’li tarkibida keladi",
+    "tavsiya": "So‘z ustuniga «bovar qilmoq» deb yozilsa — Fe’l to‘g‘ri"
+   },
+   "sinonim": {
+    "baho": "togri",
+    "izoh": "«inonmoq» ham mos"
+   },
+   "antonim": {
+    "baho": "togri",
+    "izoh": "lug‘atda yo‘q, lekin ishonmoq ↔ shubhalanmoq zidligi to‘g‘ri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’l giperonimi fe’l bo‘lishi kerak; «ishonch bildirish» — harakat nomi",
+    "tavsiya": "(haqiqat deb) qabul qilmoq"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "7": {
+   "turkum": {
+    "baho": "notogri",
+    "izoh": "sifat emas: «shunga qaramasdan» ma’nosidagi bog‘lovchi vazifasidagi so‘z",
+    "tavsiya": "Bog‘lovchi",
+    "ishonch": "past"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "yordamchi so‘zda giperonim bo‘lmaydi",
+    "tavsiya": "-"
+   }
+  },
+  "8": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "murojaat qilmoq"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "9": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«murojaat qilmoq» kengroq tushuncha — bu giperonim",
+    "tavsiya": "sinonim: -; «murojaat qilmoq» giperonimga ko‘chirilsin"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "murojaat qilmoq"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "10": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "murojaat qilmoq"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "11": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri",
+    "izoh": "«da’vat qilmoq» ham mos"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "ta’sir qilmoq"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "12": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«buyurtma bermoq» mos; «so‘ramoq» kengroq (giperonim)",
+    "tavsiya": "buyurtma bermoq"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "so‘ramoq"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "13": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "notogri",
+    "izoh": "bu ma’noda chaqiruvchi — Olloh; «Olloh chaqirdi» = «vafot etdi», lekin «chaqirmoq» ≠ «vafot etmoq» (ega boshqa)",
+    "tavsiya": "(o‘z dargohiga) olmoq"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "-"
+   }
+  },
+  "14": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "tovush chiqarmoq"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "15": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "fe’lning giperonimi fe’l bo‘lishi kerak; «xatti-harakat» — ot",
+    "tavsiya": "sabab bo‘lmoq"
+   }
+  },
+  "16": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "chorvador har doim ham xodim emas (o‘z xo‘jaligi egasi ham)",
+    "tavsiya": "kishi (kasb egasi)"
+   },
+   "giponim": {
+    "baho": "togri",
+    "izoh": "odatiy shakllari: qo‘ychivon, yilqichi, tuyachi, molboqar"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "soha butun–qism emas; bu «Sohasi» ustuniga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "17": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«ko‘mish» mos; «dafn etish» — so‘zning o‘zi",
+    "tavsiya": "ko‘mish, tuproqqa topshirish"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "togri"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "so‘zning o‘zi takrorlangan (izohda: «…marosimi»)",
+    "tavsiya": "motam marosimlari"
+   },
+   "meronim": {
+    "baho": "togri",
+    "izoh": "marosim bosqichlari sifatida"
+   }
+  },
+  "18": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri",
+    "izoh": "imlosi: qo‘lro‘mol"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "togri"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "«mato» (material) mos; «chetki qirralar» sun’iy",
+    "tavsiya": "mato"
+   }
+  },
+  "19": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "20": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "izoh sifat shaklida («…beriladigan»); ravish vazifasida ham keladi",
+    "tavsiya": "Sifat"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "qisman",
+    "izoh": "savdoda «ulgurji» mos; ish haqida esa misoldagidek «kunbay»",
+    "tavsiya": "kunbay (ish haqida); ulgurji, ko‘tarasiga (savdoda)"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "21": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "tavsiya",
+    "tavsiya": "erlik"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "ayollik"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "22": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "izohning bir qismi (tavsif), sinonim emas; fonemaning sinonimi yo‘q",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "togri"
+   },
+   "xolonim": {
+    "baho": "togri"
+   },
+   "meronim": {
+    "baho": "togri"
+   }
+  },
+  "23": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "24": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "«gumdon» o‘zi fe’l emas, «gumdon bo‘lmoq / qilmoq» tarkibida keladi",
+    "tavsiya": "So‘z ustuniga «gumdon bo‘lmoq» deb yozilsa — Fe’l to‘g‘ri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "«harakat» — ot; fe’l giperonimi fe’l bo‘lishi kerak",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "leksik tur (troponim) emas, erkin birikmalar",
+    "tavsiya": "-"
+   }
+  },
+  "25": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "tasviriy birikmalar, tur nomlari emas",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "kengroq tur (giperonim), butun emas",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "ish bosqichlari — kontekstual"
+   }
+  },
+  "26": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«irim-sirim» mos; «xurofot» kengroq (giperonim); «bid’at» — boshqa tushuncha",
+    "tavsiya": "irim-sirim"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "ensiklopedik tasvir; qabul qilsa bo‘ladi"
+   },
+   "xolonim": {
+    "baho": "qisman",
+    "izoh": "sinf a’zoligi — kontekstual"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "bular irimning qismlari emas, turlari (giponimga yaqin)",
+    "tavsiya": "-"
+   }
+  },
+  "27": {
+   "izoh": {
+    "baho": "qisman",
+    "izoh": "lug‘atdagi etimologik tarjima va qo‘llanish izohi yozilgan, asl izoh tushib qolgan",
+    "tavsiya": "Arava, velosiped, chana va sh.k.da uchish, kezish, sayr qilish"
+   },
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "«kataysa» o‘zi harakat nomi (ot); fe’l — «kataysa qilmoq»",
+    "tavsiya": "Ot (yoki so‘z: «kataysa qilmoq» — Fe’l)"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "bular qavsdagi etimologik tarjima; ma’noga mosi — «sayr»",
+    "tavsiya": "sayr, uchish"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "28": {
+   "holat": "Ro‘yxatda yo‘q so‘z (kirdi o‘rniga) — baholanmadi"
+  },
+  "29": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sinonim bilan bir xil",
+    "tavsiya": "joy"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "«boshpana», «maskan» — sinonim; tur emas",
+    "tavsiya": "uy"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "bular «uy»ning qismlari; umumiy «turarjoy» uchun sun’iy",
+    "tavsiya": "-"
+   }
+  },
+  "30": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "izoh ham ot («mato»), ham sifat («…tayyorlangan»); misolda sifat («misqoli yaktak»)",
+    "tavsiya": "Ot, Sifat"
+   },
+   "sinonim": {
+    "baho": "notogri",
+    "izoh": "tasviriy birikma (izohning takrori), sinonim emas",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "bular misqolining turlari emas, matoning boshqa turlari (kogiponim)",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "«ip» (material) mos; qolganlari sun’iy",
+    "tavsiya": "ip"
+   }
+  },
+  "31": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "motorsiz"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "32": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "bu fonetik variant (-day / -dek), sinonim emas",
+    "tavsiya": "mushtdek (variant sifatida)"
+   },
+   "antonim": {
+    "baho": "notogri",
+    "izoh": "«mushtga o‘xshagan» ma’nosida antonim yo‘q — sun’iy",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "33": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "olmoshda giperonim bo‘lmaydi",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "34": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "35": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "qisman",
+    "izoh": "«notinchlik» mos; «g‘alayon» kontekstual",
+    "tavsiya": "notinchlik"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sinonimlar takrorlangan",
+    "tavsiya": "holat"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "aniqlovchili birikmalar — kontekstual"
+   }
+  },
+  "36": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "tavsiya",
+    "tavsiya": "beparanji",
+    "izoh": "lug‘at izohida berilgan"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "paranjili"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "37": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "«harakat» mos; «uchish» — sinonim",
+    "tavsiya": "harakat"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "egalik birikmalari; qabul qilsa bo‘ladi"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sinonimning takrori, butun emas",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "bosqichlar sifatida",
+    "tavsiya": "ko‘tarilish, qo‘nish"
+   }
+  },
+  "38": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«yopqich» mos; «qoplama» — boshqa tushuncha",
+    "tavsiya": "yopqich"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "togri"
+   },
+   "xolonim": {
+    "baho": "togri"
+   },
+   "meronim": {
+    "baho": "togri"
+   }
+  },
+  "39": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "sun’iy birikmalar; qoramoyning bunday turlari yo‘q",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "mahsulotlar sinfi — giperonimning takrori",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "modda tarkibi sifatida qabul qilsa bo‘ladi (ensiklopedik)"
+   }
+  },
+  "40": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«tovlamachi» mos; «qo‘rqituvchi» kengroq",
+    "tavsiya": "tovlamachi"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "shantajchi — shaxs, «huquqbuzarlik» esa harakat",
+    "tavsiya": "jinoyatchi, huquqbuzar"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "tasviriy birikma",
+    "tavsiya": "-"
+   }
+  },
+  "41": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "umumiy, ijtimoiy"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "42": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "taqlid so‘zlarda aniq sinonim kam; «taraq» kuchliroq tovush",
+    "tavsiya": "shaq, chirs",
+    "ishonch": "past"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "taqlid so‘zda giperonim bo‘lmaydi",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "so‘zning takroriy shakli, tur emas",
+    "tavsiya": "-"
+   }
+  },
+  "43": {
+   "holat": "Ortiqcha qator (birikma) — baholanmadi"
+  },
+  "44": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "rasmiy atama — «bortkuzatuvchi»; ikkinchisi tasviriy",
+    "tavsiya": "bortkuzatuvchi"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "ish joyiga ko‘ra birikmalar; qabul qilsa bo‘ladi"
+   },
+   "xolonim": {
+    "baho": "togri",
+    "izoh": "a’zo–to‘plam munosabati"
+   }
+  },
+  "45": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«qayta-qayta» — ravish; sifat sinonimi kerak",
+    "tavsiya": "qayta, takror"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "46": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "telpaksiz"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "47": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "generativ",
+    "izoh": "biologiyada: vegetativ ↔ generativ a’zolar"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "48": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "o‘zbek lug‘atlarida tasdiqlash kerak (rus. «верблюжья колючка» kalkasi bo‘lishi mumkin)",
+    "ishonch": "past"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "botanik tur nomlari manba bilan tasdiqlansin",
+    "ishonch": "past"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "giperonimning takrori; butun emas",
+    "tavsiya": "yantoqzor"
+   },
+   "meronim": {
+    "baho": "togri"
+   }
+  },
+  "49": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "notogri",
+    "izoh": "sun’iy; «saf, qator»ning qat’iy antonimi yo‘q",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "«saf» — sinonim",
+    "tavsiya": "tizilish, tartib"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "sun’iy birikmalar",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sinonim/giperonim takrori",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "«qator» — sinonim",
+    "tavsiya": "askar (safdagi kishi)"
+   }
+  },
+  "50": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "qisman",
+    "izoh": "kontekstual zidlik, qat’iy antonim emas",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "egalik birikmalari"
+   },
+   "xolonim": {
+    "baho": "togri"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "modda tarkibi — sun’iy",
+    "tavsiya": "-"
+   }
+  },
+  "51": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "tavsiya",
+    "tavsiya": "murabba (esk.)"
+   },
+   "giperonim": {
+    "baho": "togri",
+    "izoh": "yaqinroq giperonim: to‘g‘ri to‘rtburchak"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "sun’iy birikmalar",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "giperonimning takrori",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "togri"
+   }
+  },
+  "52": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«ikkinchi daraja» mos; «sonning kvadrati» — so‘zning o‘zi",
+    "tavsiya": "ikkinchi daraja"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "bular misollar, tur emas",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "butun–qism emas",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "kontekstual",
+    "tavsiya": "ko‘paytuvchi"
+   }
+  },
+  "53": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«oz-ozdan» 2-ma’noga tegishli — ma’nolar aralashgan",
+    "tavsiya": "misqoldan, misqol bilan"
+   },
+   "antonim": {
+    "baho": "qisman",
+    "izoh": "«botmonlab» ham 2-ma’no (oz-ozdan) uchun; 1-ma’noda antonim yo‘q",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   }
+  },
+  "54": {
+   "turkum": {
+    "baho": "notogri",
+    "izoh": "ravish emas: -ki qo‘shimchali nisbiy sifat («pastki qavat»)",
+    "tavsiya": "Sifat"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "ustki, yuqorigi"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "55": {
+   "turkum": {
+    "baho": "notogri",
+    "izoh": "ravish emas: -ki qo‘shimchali nisbiy sifat («pastki sinflar»)",
+    "tavsiya": "Sifat"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "yuqori (yuqori sinflar)"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "56": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "gumon olmoshi (qachon + -dir), payt ravishi vazifasida",
+    "tavsiya": "Olmosh (gumon) / Ravish",
+    "ishonch": "past"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«bir vaqtlar» mos; «qadimda, ilgari» aniqroq ma’noli",
+    "tavsiya": "bir vaqtlar, bir zamonlar"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "sinonimlar takrorlangan; tur emas",
+    "tavsiya": "-"
+   }
+  },
+  "57": {
+   "turkum": {
+    "baho": "qisman",
+    "izoh": "gumon olmoshi (qachon + -dir), payt ravishi vazifasida",
+    "tavsiya": "Olmosh (gumon) / Ravish",
+    "ishonch": "past"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«bir kun» mos; «kelajakda» kengroq",
+    "tavsiya": "bir kun, bir kun emas bir kun"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "«ertaga, indinga» aniq payt — noaniq «qachondir»ning turi emas",
+    "tavsiya": "-"
+   }
+  },
+  "58": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«pishiq» mos; «suyakdor» boshqa ma’no (yirik suyakli)",
+    "tavsiya": "chayir, pishiq"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "to‘la, etli"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "59": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«ozg‘in, oriq» mos; «suyakdor» emas",
+    "tavsiya": "ozg‘in, oriq"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "semiz"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "60": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "yaqinroq giperonim — izohdagi «tartib-qoida»",
+    "tavsiya": "tartib, qoida"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "kontekstual birikmalar"
+   },
+   "xolonim": {
+    "baho": "qisman",
+    "izoh": "kontekstual"
+   },
+   "meronim": {
+    "baho": "qisman",
+    "izoh": "kontekstual"
+   }
+  },
+  "61": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«yuzakilik» mos; «soxtalik» kengroq",
+    "tavsiya": "yuzakilik, xo‘jako‘rsin"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "izohga ko‘ra: ish, xatti-harakat",
+    "tavsiya": "ish, xatti-harakat"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "tasviriy birikmalar",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "giperonimning takrori",
+    "tavsiya": "-"
+   }
+  },
+  "62": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«ugra xamiri» — so‘zning o‘zi",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "qisman",
+    "izoh": "aniqlovchili birikmalar"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "giperonim takrori",
+    "tavsiya": "ugra oshi (taom tarkibida)"
+   },
+   "meronim": {
+    "baho": "togri"
+   }
+  },
+  "63": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "togri"
+   },
+   "giponim": {
+    "baho": "togri"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "giperonim va sinonim takrori",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "togri"
+   }
+  },
+  "64": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "izohning takrori, sinonim emas",
+    "tavsiya": "-"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "65": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "antonim": {
+    "baho": "tavsiya",
+    "tavsiya": "yo‘lli",
+    "izoh": "misolda juft keltirilgan: «yo‘lli, yo‘lsiz»"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   },
+   "misol": {
+    "baho": "qisman",
+    "izoh": "misol boshida izoh parchasi qolgan («O‘rinsiz, nojo‘ya. …»)",
+    "tavsiya": "faqat misol gap qoldirilsin"
+   }
+  },
+  "66": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri",
+    "izoh": "«tarafgir» ham mos"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "sinonim takrorlangan",
+    "tavsiya": "kishi"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "egalik birikmalari, tur emas",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "qisman",
+    "izoh": "kontekstual"
+   }
+  },
+  "67": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri"
+   },
+   "giperonim": {
+    "baho": "qisman",
+    "izoh": "sinonim takrorlangan",
+    "tavsiya": "kishi"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "egalik birikmalari, tur emas",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "qisman",
+    "izoh": "ishtirokchi–tadbir; butun–qism emas",
+    "tavsiya": "-"
+   }
+  },
+  "68": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«guruhboz» mos; «nizolashuvchi» kengroq",
+    "tavsiya": "guruhboz"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sinonim bilan bir xil",
+    "tavsiya": "kishi"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "egalik birikmalari, tur emas",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "qisman",
+    "izoh": "a’zo–guruh; kontekstual"
+   }
+  },
+  "69": {
+   "holat": "Izoh o‘rniga 3-ma’no misoli yozilgan; qator aslida 3-ma’noni takrorlaydi. 1-ma’no uchun qayta yozilsin",
+   "izoh": {
+    "baho": "notogri",
+    "izoh": "ma’no izohi emas",
+    "tavsiya": "Kesuvchi yoki nayzali asbob bilan qurollangan, tig‘i bor; tig‘dor"
+   },
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "notogri",
+    "izoh": "bular 3-ma’no (ko‘chma) sinonimlari; 1-ma’no uchun emas",
+    "tavsiya": "tig‘dor"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "70": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "qisman",
+    "izoh": "«damli» mos; «o‘tkir tig‘li» — so‘zning o‘zi",
+    "tavsiya": "damli, tig‘dor"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  },
+  "71": {
+   "turkum": {
+    "baho": "togri"
+   },
+   "sinonim": {
+    "baho": "togri",
+    "izoh": "«keskin, achchiq» ham mos"
+   },
+   "giperonim": {
+    "baho": "notogri",
+    "izoh": "sifat/ravishda giperonim bo‘lmaydi; bu yerda ot bilan tavsif yozilgan",
+    "tavsiya": "-"
+   },
+   "giponim": {
+    "baho": "notogri",
+    "izoh": "giponim emas — so‘zning ot bilan erkin birikmalari (qo‘llanish misollari)",
+    "tavsiya": "-"
+   },
+   "xolonim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   },
+   "meronim": {
+    "baho": "notogri",
+    "izoh": "sifatda butun–qism munosabati bo‘lmaydi; bu sifatlanayotgan narsaga tegishli",
+    "tavsiya": "-"
+   }
+  }
+ }
+}

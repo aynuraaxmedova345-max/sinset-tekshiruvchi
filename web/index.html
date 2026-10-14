@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Sinset tekshiruvchi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,500;7..72,700&family=Noto+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Tartib: chapda guruh jurnali (talabalar ro'yxati), o'ngda tanlangan talabaning hisoboti; tepada yuklash va eksport. */
+:root {
+  --bg: #F2F4F9; --surface: #FFFFFF; --sunk: #E9EDF5; --ink: #14213D; --muted: #56617B; --line: #D5DCEA;
+  --accent: #2447B8; --accent-ink: #FFFFFF; --accent-soft: #E3EAFB;
+  --ok: #1B6E44; --ok-bg: #DCF0E4; --warn: #8A5700; --warn-bg: #FBEBC6; --bad: #AE2219; --bad-bg: #F9DAD6;
+  --info: #23539A; --info-bg: #DCE8F8; --skip-bg: #E7EAF1;
+  --f-display: "Literata", Georgia, "Times New Roman", serif;
+  --f-body: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0E131F; --surface: #161D2D; --sunk: #1D2538; --ink: #E6EBF7; --muted: #98A4BF; --line: #2A3349;
+  --accent: #93AAFF; --accent-ink: #0E131F; --accent-soft: #1E2B52;
+  --ok: #7FD3A4; --ok-bg: #153325; --warn: #F0C36A; --warn-bg: #3A2D10; --bad: #FF9A92; --bad-bg: #44201C;
+  --info: #9CC2F5; --info-bg: #1A2C48; --skip-bg: #212A3C; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0E131F; --surface: #161D2D; --sunk: #1D2538; --ink: #E6EBF7; --muted: #98A4BF; --line: #2A3349;
+  --accent: #93AAFF; --accent-ink: #0E131F; --accent-soft: #1E2B52;
+  --ok: #7FD3A4; --ok-bg: #153325; --warn: #F0C36A; --warn-bg: #3A2D10; --bad: #FF9A92; --bad-bg: #44201C;
+  --info: #9CC2F5; --info-bg: #1A2C48; --skip-bg: #212A3C; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 14px; line-height: 1.5; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 22px 48px; display: flex; flex-direction: column; gap: 18px; }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: 28px; line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 20px; line-height: 1.2; margin: 0; text-wrap: balance; }
+h3 { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.top { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: flex-end; justify-content: space-between; }
+.top .lead { max-width: 62ch; color: var(--muted); margin-top: 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 14px; font-weight: 600; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.small { padding: 4px 10px; font-size: 12.5px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.danger { color: var(--bad); }
+
+.drop { border: 1.5px dashed var(--line); border-radius: 10px; background: var(--surface); padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.drop strong { font-weight: 600; }
+#status { font-size: 13px; color: var(--muted); }
+#status:empty { display: none; }
+#status.err { color: var(--bad); }
+
+.main { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 900px) { .main { grid-template-columns: minmax(0, 1fr); } }
+
+.roster { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 8px; display: flex; flex-direction: column; gap: 10px; max-height: 78vh; overflow: auto; }
+@media (max-width: 900px) { .roster { max-height: 280px; } }
+.roster h3 { padding-inline: 8px; display: flex; justify-content: space-between; gap: 8px; }
+.roster ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.stu { width: 100%; display: flex; gap: 8px; align-items: baseline; justify-content: space-between; text-align: left; border: 0; background: transparent; border-radius: 6px; padding: 5px 8px; }
+.stu:hover { background: var(--sunk); }
+.stu[aria-current="true"] { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.stu .nm { min-width: 0; overflow-wrap: anywhere; font-size: 13px; }
+.stu .st { flex: none; font-size: 12px; color: var(--muted); }
+.stu .st.ball { font-family: var(--f-mono); font-weight: 600; color: var(--ink); }
+.stu .st.zero { color: var(--bad); }
+.tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; background: var(--info-bg); color: var(--info); margin-left: 6px; vertical-align: 1px; }
+
+.report { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; min-width: 0; }
+.head { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; justify-content: space-between; }
+.head .who { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.head .who .file { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+.mark { display: flex; align-items: baseline; gap: 6px; font-family: var(--f-mono); }
+.mark b { font-size: 46px; line-height: 1; font-weight: 600; letter-spacing: -.02em; }
+.mark span { color: var(--muted); font-size: 16px; }
+.meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px 22px; margin-top: 16px; }
+.meter { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.meter .row { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; }
+.meter .bar { height: 6px; border-radius: 3px; background: var(--sunk); overflow: hidden; }
+.meter .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.meter small { color: var(--muted); font-size: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chip { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; border: 1px solid transparent; }
+.chip.bad { background: var(--bad-bg); color: var(--bad); } .chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.info { background: var(--info-bg); color: var(--info); } .chip.ok { background: var(--ok-bg); color: var(--ok); }
+.chip.plain { background: var(--sunk); color: var(--muted); }
+.note { border-left: 3px solid var(--info); background: var(--info-bg); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
+.note.warn { border-color: var(--warn); background: var(--warn-bg); }
+.note.bad { border-color: var(--bad); background: var(--bad-bg); }
+
+.fb { display: flex; flex-direction: column; gap: 8px; }
+.fb .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.fb textarea { width: 100%; min-height: 200px; resize: vertical; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); padding: 10px 12px; line-height: 1.55; }
+.ai { display: flex; flex-direction: column; gap: 10px; }
+.ai .bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
+.prog { height: 6px; border-radius: 3px; background: var(--sunk); overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+@media (prefers-reduced-motion: reduce) { .prog i { transition: none; } }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.tabs button { border: 0; background: transparent; padding: 8px 12px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.filters button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 2px 10px; font-size: 12.5px; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { text-align: left; vertical-align: top; padding: 7px 9px; border-bottom: 1px solid var(--line); }
+th { position: sticky; top: 0; background: var(--sunk); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n { font-family: var(--f-mono); color: var(--muted); white-space: nowrap; }
+td.w { font-weight: 600; white-space: nowrap; }
+.t-err td:nth-child(5) { min-width: 300px; } .t-err td:nth-child(6) { min-width: 240px; color: var(--muted); } .t-err td:nth-child(7) { min-width: 200px; }
+.t-ai td { min-width: 190px; } .t-ai td.n, .t-ai td.w { min-width: 0; }
+.v { display: block; border-radius: 6px; padding: 6px 8px; }
+.v .val { display: block; color: var(--muted); font-size: 12px; margin-bottom: 3px; overflow-wrap: anywhere; }
+.v .rec { display: block; margin-top: 3px; font-weight: 600; }
+.v.togri { background: var(--ok-bg); } .v.togri b { color: var(--ok); }
+.v.qisman { background: var(--warn-bg); } .v.qisman b { color: var(--warn); }
+.v.notogri { background: var(--bad-bg); } .v.notogri b { color: var(--bad); }
+.v.tavsiya { background: var(--info-bg); } .v.tavsiya b { color: var(--info); }
+.v.skip { background: var(--skip-bg); color: var(--muted); }
+.v .low { display: block; font-size: 11.5px; font-style: italic; margin-top: 3px; }
+.st-ok { color: var(--ok); font-weight: 600; } .st-bad { color: var(--bad); font-weight: 600; } .st-warn { color: var(--warn); font-weight: 600; }
+
+details.set { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 18px; }
+details.set summary { font-weight: 600; cursor: pointer; }
+.setgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 22px; margin-top: 14px; }
+.setgrid label { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.setgrid input[type="number"] { border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 6px 8px; width: 100%; font-family: var(--f-mono); color: var(--ink); }
+.check { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; max-width: 80ch; }
+.check input { margin-top: 3px; }
+.setfoot { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: center; }
+select { border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 5px 8px; max-width: 100%; }
+.empty { color: var(--muted); padding: 26px 8px; text-align: center; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Sinset tekshiruvchi</h1>
+      <p class="lead">Talabaning Excel faylini yuklang: har bir sinset izohli lug‘at bilan solishtiriladi, ball va umumiy feedback chiqadi. Oxirida hamma natija bitta Excel faylga yig‘iladi.</p>
+    </div>
+    <div class="actions">
+      <button class="btn" id="btnWord" type="button">Word jadval (barcha topshirganlar)</button>
+      <button class="btn primary" id="btnExport" type="button">Bitta Excel qilib yuklab olish</button>
+    </div>
+  </header>
+
+  <div class="drop" id="drop">
+    <div><strong>Talaba fayllarini shu yerga tashlang</strong> <span class="muted">yoki tanlang. Bir nechta .xlsx faylni birdan yuklash mumkin; talaba fayl nomidagi familiyadan aniqlanadi.</span></div>
+    <div class="actions">
+      <button class="btn" id="btnPick" type="button">Fayl tanlash</button>
+      <input type="file" id="fileInput" accept=".xlsx" multiple hidden>
+    </div>
+  </div>
+  <div id="status" role="status" aria-live="polite"></div>
+
+  <div class="main">
+    <nav class="roster" id="roster" aria-label="Talabalar jurnali"></nav>
+    <section class="report" id="report" aria-live="polite"></section>
+  </div>
+
+  <details class="set" id="settings">
+    <summary>Baholash mezoni va sozlamalar</summary>
+    <p class="muted" style="margin-top:10px;max-width:80ch">Ball uch qismdan yig‘iladi. Og‘irliklarni o‘zgartirsangiz, barcha talabalarning bali qayta hisoblanadi. AI lingvist ishga tushirilmagan talabada uchinchi qism hisobga olinmaydi.</p>
+    <div class="setgrid">
+      <label>Eng yuqori ball <input type="number" id="setMax" min="1" max="1000" step="1"></label>
+      <label>Qamrov: lug‘atdagi ma’nolardan nechtasiga sinset tuzilgan <input type="number" id="setQ" min="0" max="100" step="1"></label>
+      <label>Izoh va misol: tuzilmaviy xatosi yo‘q qatorlar ulushi <input type="number" id="setS" min="0" max="100" step="1"></label>
+      <label>Mazmun: turkum va munosabatlar (AI lingvist bahosi) <input type="number" id="setA" min="0" max="100" step="1"></label>
+    </div>
+    <label class="check"><input type="checkbox" id="setOt"> <span>Ot bo‘lmagan so‘zlarda (sifat, ravish, fe’l…) giperonim, giponim, xolonim va meronim kataklarini ballga qo‘shmaslik. Shablon barcha ustunni to‘ldirishga undagani uchun bu xatolar hisobotda ko‘rsatiladi, lekin balni tushirmaydi.</span></label>
+    <div class="setfoot">
+      <button class="btn small" id="btnDefaults" type="button">Standart mezonga qaytarish</button>
+      <button class="btn small danger" id="btnClear" type="button">Barcha natijalarni o‘chirish</button>
+      <span id="clearAsk" hidden><span class="muted">Yuklangan fayllar va AI baholari o‘chadi.</span> <button class="btn small danger" id="btnClearYes" type="button">Ha, o‘chirilsin</button> <button class="btn small" id="btnClearNo" type="button">Bekor</button></span>
+    </div>
+  </details>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="engine.js"></script>
+<script>
+(function () {
+  "use strict";
+  const E = window.SinsetEngine;
+  const $ = (s) => document.querySelector(s);
+  function h(tag, attrs) {
+    const el = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      const v = attrs[k];
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (let i = 2; i < arguments.length; i++) {
+      const c = arguments[i];
+      if (c == null || c === false) continue;
+      if (Array.isArray(c)) c.forEach(x => x != null && x !== false && el.append(x));
+      else el.append(c);
+    }
+    return el;
+  }
+  const fmt = (n) => (Math.round(n * 10) / 10).toString().replace(".", ",");
+  const pct = (x) => x == null ? "—" : Math.round(x * 100) + "%";
+  function shortName(full) {
+    return String(full).split(/\s+/).slice(0, 2).map(p => p.charAt(0) + p.slice(1).toLowerCase()).join(" ");
+  }
+
+  const state = { data: null, recs: new Map(), sel: null, tab: "xato", filter: "all", set: Object.assign({}, E.DEFAULTS),
+    cap: { sample: null, downloads: null, ready: false }, aiRun: null, aiOff: "" };
+
+  // ---------------------------------------------------------------- saqlash (shu brauzerda)
+  try { const s = JSON.parse(localStorage.getItem("sinset-mezon") || "null"); if (s) Object.assign(state.set, s); } catch (e) {}
+  function saveSet() { try { localStorage.setItem("sinset-mezon", JSON.stringify(state.set)); } catch (e) {} }
+  let dbp = null;
+  function db() {
+    if (dbp) return dbp;
+    dbp = new Promise((res) => {
+      try {
+        const rq = indexedDB.open("sinset-tekshiruv", 1);
+        rq.onupgradeneeded = () => rq.result.createObjectStore("recs", { keyPath: "key" });
+        rq.onsuccess = () => res(rq.result); rq.onerror = () => res(null); rq.onblocked = () => res(null);
+      } catch (e) { res(null); }
+    });
+    return dbp;
+  }
+  async function dbTx(mode, fn) {
+    const d = await db(); if (!d) return null;
+    return new Promise((res) => {
+      try { const tx = d.transaction("recs", mode); const rq = fn(tx.objectStore("recs")); tx.oncomplete = () => res(rq ? rq.result : null); tx.onerror = tx.onabort = () => res(null); }
+      catch (e) { res(null); }
+    });
+  }
+  const plain = (rec) => ({ key: rec.key, name: rec.name, fileName: rec.fileName, varaqlar: rec.varaqlar, ai: rec.ai, fb: rec.fb, fbSrc: rec.fbSrc, sample: !!rec.sample, at: rec.at });
+  const dbPut = (rec) => dbTx("readwrite", s => s.put(plain(rec)));
+  const dbDel = (key) => dbTx("readwrite", s => s.delete(key));
+  const dbClear = () => dbTx("readwrite", s => s.clear());
+  const dbAll = () => dbTx("readonly", s => s.getAll());
+
+  // ---------------------------------------------------------------- hisoblash
+  const hasAI = (rec) => !!rec.ai && Object.keys(rec.ai).length > 0;
+  function compute(rec) {
+    try {
+      const sub = E.readSubmission(rec.varaqlar);
+      const assigned = rec.name && state.data.sozlar[rec.name] ? state.data.sozlar[rec.name] : [];
+      const res = E.check(sub, assigned, state.data.lugat);
+      const ai = hasAI(rec) ? rec.ai : null;
+      const issues = ai ? res.issues.filter(x => !x.aiDup) : res.issues;
+      const g = E.grade(res.stats, ai, sub.rows, state.set);
+      const cnt = { X: 0, O: 0, K: 0 };
+      for (const x of issues) { if (x.daraja === E.XATO) cnt.X++; else if (x.daraja === E.OGOH) cnt.O++; else cnt.K++; }
+      const pending = res.aiReq.filter(q => !q._skip && !(rec.ai && rec.ai[String(q.qator)])).length;
+      rec._c = { sub, res, issues, g, cnt, fbAuto: E.feedback(rec.name || "", res, g, ai), pending };
+      rec.error = "";
+    } catch (e) { rec._c = null; rec.error = e && e.message ? e.message : String(e); }
+  }
+  const fbText = (rec) => (rec.fbSrc && rec.fbSrc !== "auto" && rec.fb) ? rec.fb : (rec._c ? rec._c.fbAuto : "");
+  function setStatus(msg, err) { const s = $("#status"); s.textContent = msg || ""; s.classList.toggle("err", !!err); }
+
+  // ---------------------------------------------------------------- jurnal
+  function rosterStatus(name) {
+    const rec = state.recs.get(name);
+    if (rec && rec._c) return { cls: "st ball", text: fmt(rec._c.g.ball) };
+    if (rec) return { cls: "st zero", text: "o‘qilmadi" };
+    if (!state.data.sozlar[name]) return { cls: "st zero", text: "0 · ro‘yxat yo‘q" };
+    return { cls: "st", text: "fayl yo‘q" };
+  }
+  function renderRoster() {
+    const box = $("#roster"); box.textContent = "";
+    const d = state.data; if (!d) return;
+    let total = 0, done = 0;
+    for (const g in d.guruh) for (const n of d.guruh[g]) { total++; if (state.recs.has(n)) done++; }
+    box.append(h("h3", null, h("span", { text: "Jurnal" }), h("span", { class: "num", text: done + " / " + total })));
+    const item = (key, label, st, sample) => h("li", null, h("button", { class: "stu", type: "button", "aria-current": state.sel === key ? "true" : null, onclick: () => { state.sel = key; render(); } },
+      h("span", { class: "nm" }, label, sample ? h("span", { class: "tag", text: "namuna" }) : null), h("span", { class: st.cls, text: st.text })));
+    for (const g in d.guruh) {
+      box.append(h("h3", null, h("span", { text: g + "-guruh" })));
+      const ul = h("ul");
+      for (const n of d.guruh[g]) { const rec = state.recs.get(n); ul.append(item(n, shortName(n), rosterStatus(n), rec && rec.sample)); }
+      box.append(ul);
+    }
+    const unk = [...state.recs.values()].filter(r => !r.name);
+    if (unk.length) {
+      box.append(h("h3", null, h("span", { text: "Talaba aniqlanmagan" })));
+      const ul = h("ul");
+      for (const r of unk) ul.append(item(r.key, r.fileName, r._c ? { cls: "st ball", text: fmt(r._c.g.ball) } : { cls: "st zero", text: "o‘qilmadi" }));
+      box.append(ul);
+    }
+  }
+
+  // ---------------------------------------------------------------- hisobot
+  function meter(label, val, sub) {
+    return h("div", { class: "meter" }, h("div", { class: "row" }, h("span", { text: label }), h("span", { class: "num", text: pct(val) })),
+      h("div", { class: "bar" }, h("i", { style: "width:" + (val == null ? 0 : Math.round(val * 100)) + "%" })), h("small", { text: sub }));
+  }
+  function verdictCell(v, val, col) {
+    if (!v) return h("span", { class: "muted", text: E.isEmpty(val) ? "—" : E.short(val, 70) });
+    const lab = { togri: "✓ To‘g‘ri", qisman: "◐ Qisman to‘g‘ri", notogri: "✗ Noto‘g‘ri", tavsiya: "＋ Bo‘sh — to‘ldirish mumkin" }[v.baho];
+    return h("span", { class: "v " + v.baho },
+      (col !== "izoh" && col !== "misol" && !E.isEmpty(val)) ? h("span", { class: "val", text: "«" + E.short(val, 110) + "»" }) : null,
+      h("b", { text: lab }), v.izoh ? document.createTextNode(": " + v.izoh) : null,
+      v.tavsiya ? h("span", { class: "rec", text: "→ " + v.tavsiya }) : null,
+      v.ishonch === "past" ? h("span", { class: "low", text: "AI ishonchi past, manba bilan tekshiring" }) : null);
+  }
+  function renderReport() {
+    const box = $("#report"); box.textContent = "";
+    const d = state.data; if (!d) { box.append(h("div", { class: "panel empty", text: "Ma’lumotlar yuklanmoqda…" })); return; }
+    const key = state.sel, rec = key ? state.recs.get(key) : null;
+    if (!key) { box.append(h("div", { class: "panel empty", text: "Jurnaldan talabani tanlang yoki fayl yuklang." })); return; }
+    if (!rec) {
+      const noList = !d.sozlar[key];
+      box.append(h("div", { class: "panel" }, h("div", { class: "head" }, h("div", { class: "who" }, h("h2", { text: key }), h("span", { class: "file", text: noList ? "Bu talabaga so‘z ro‘yxati berilmagan" : "Fayl hali yuklanmagan" })),
+        h("div", { class: "mark" }, h("b", { text: noList ? "0" : "—" }), h("span", { text: "/ " + state.set.maxBall }))),
+        h("p", { class: "muted", style: "margin-top:12px", text: noList ? "So‘z ro‘yxati bo‘lmagani uchun umumiy Excelda 0 ball bilan chiqadi." : "Shu talabaning .xlsx faylini yuklang. Fayl nomida familiyasi bo‘lsa, o‘zi shu yerga tushadi." })));
+      return;
+    }
+    if (rec.sample) box.append(h("div", { class: "note" }, h("span", { text: "Bu namuna: ismsiz talaba fayli va oldindan tayyorlangan AI lingvist baholari. O‘z fayllaringizni yuklang; namuna kerak bo‘lmasa olib tashlang." }),
+      h("button", { class: "btn small", type: "button", onclick: () => removeRec(rec.key), text: "Namunani olib tashlash" })));
+    if (!rec._c) {
+      box.append(h("div", { class: "panel" }, h("h2", { text: rec.name || rec.fileName }), h("div", { class: "note bad", style: "margin-top:12px" }, h("span", { text: "Fayl o‘qilmadi: " + rec.error }),
+        h("button", { class: "btn small", type: "button", onclick: () => removeRec(rec.key), text: "Olib tashlash" }))));
+      return;
+    }
+    const c = rec._c, g = c.g, s = c.res.stats;
+
+    // sarlavha + ball
+    const who = h("div", { class: "who" }, h("h2", { text: rec.name || "Talaba aniqlanmadi" }), h("span", { class: "file", text: rec.fileName + " · " + s.rows + " qator" }));
+    if (!rec.name) {
+      const sel = h("select", { id: "assignSel", "aria-label": "Talabani tanlash", onchange: (e) => assign(rec, e.target.value) }, h("option", { value: "", text: "Talabani tanlang…" }));
+      for (const n of Object.keys(d.sozlar)) if (!state.recs.has(n)) sel.append(h("option", { value: n, text: shortName(n) }));
+      who.append(sel);
+    }
+    const panel = h("div", { class: "panel" }, h("div", { class: "head" }, who, h("div", { class: "mark", title: "Ball" }, h("b", { text: fmt(g.ball) }), h("span", { text: "/ " + g.max }))));
+    panel.append(h("div", { class: "meters" },
+      meter("Qamrov", g.qamrov, s.expected ? s.covered + " / " + s.expected + " ma’no · " + s.done + " / " + s.assigned + " so‘z" : "so‘z ro‘yxati yo‘q, hisobga olinmadi"),
+      meter("Izoh va misol", g.sifat, s.cleanRows + " / " + s.rows + " qatorda tuzilmaviy xato yo‘q"),
+      meter("Mazmun (AI lingvist)", g.ai, g.aiBor ? g.aiCounts.sT + " to‘g‘ri, " + g.aiCounts.sQ + " qisman, " + g.aiCounts.sN + " noto‘g‘ri" + (g.aiCounts.chiqarilgan ? " · " + g.aiCounts.chiqarilgan + " katak ballga kirmadi" : "") : "hali baholanmagan, ballga kirmadi")));
+    panel.append(h("div", { class: "chips" }, h("span", { class: "chip bad", text: c.cnt.X + " xato" }), h("span", { class: "chip warn", text: c.cnt.O + " ogohlantirish" }), h("span", { class: "chip info", text: c.cnt.K + " ko‘rib chiqish" }),
+      s.missingWords.length ? h("span", { class: "chip plain", text: "Ishlanmagan: " + s.missingWords.join(", ") }) : null,
+      s.extraWords.length ? h("span", { class: "chip plain", text: "Ro‘yxatda yo‘q: " + s.extraWords.join(", ") }) : null));
+    panel.append(h("div", { class: "actions", style: "margin-top:16px" },
+      h("button", { class: "btn primary", type: "button", id: "btnSolo", onclick: () => exportAll(rec), text: "Talaba uchun Excel" }),
+      h("span", { class: "muted", style: "font-size:12.5px", text: "Faqat shu talabaning bali, feedbacki va xatolari — boshqa talabalar ko‘rinmaydi." })));
+    box.append(panel);
+
+    // feedback
+    const ta = h("textarea", { id: "fbText", "aria-label": "Umumiy feedback" });
+    ta.value = fbText(rec);
+    ta.addEventListener("input", () => { rec.fb = ta.value; rec.fbSrc = "edit"; clearTimeout(ta._t); ta._t = setTimeout(() => dbPut(rec), 600); });
+    const src = { auto: "qoidalar asosida tuzilgan", ai: "AI yozgan", edit: "siz tahrirlagan" }[rec.fbSrc || "auto"];
+    box.append(h("div", { class: "panel fb" }, h("div", { class: "bar" }, h("h3", { text: "Umumiy feedback · " + src }),
+      h("div", { class: "actions" },
+        (rec.fbSrc && rec.fbSrc !== "auto") ? h("button", { class: "btn small", type: "button", onclick: () => { rec.fb = null; rec.fbSrc = "auto"; dbPut(rec); renderReport(); }, text: "Avtomatik matnga qaytarish" }) : null,
+        h("button", { class: "btn small", type: "button", onclick: () => copyText(ta.value), text: "Nusxa olish" }))),
+      ta, h("p", { class: "muted", style: "font-size:12.5px", text: "Matnni shu yerda tahrirlashingiz mumkin; talaba Exceliga ham, umumiy Excelga ham shu ko‘rinishda tushadi." })));
+
+    // AI lingvist
+    box.append(renderAIPanel(rec));
+
+    // jadvallar
+    const tabs = [["xato", "Xatolar (" + c.issues.length + ")"], ["ai", "AI lingvist"], ["soz", "So‘zlar (" + c.res.wordTable.length + ")"]];
+    const tp = h("div", { class: "panel" }, h("div", { class: "tabs", role: "tablist" }, tabs.map(t => h("button", { type: "button", role: "tab", "aria-selected": state.tab === t[0] ? "true" : "false", onclick: () => { state.tab = t[0]; renderReport(); }, text: t[1] }))));
+    if (state.tab === "xato") tp.append(errTable(c));
+    else if (state.tab === "ai") tp.append(aiTable(rec));
+    else tp.append(wordTable(c));
+    box.append(tp);
+    box.append(h("div", null, h("button", { class: "btn small danger", type: "button", onclick: () => removeRec(rec.key), text: "Bu talabaning natijasini olib tashlash" })));
+  }
+  function errTable(c) {
+    const wrap = h("div");
+    const fs = [["all", "Hammasi"], [E.XATO, "Xato"], [E.OGOH, "Ogohlantirish"], [E.KORIB, "Ko‘rib chiqish"]];
+    wrap.append(h("div", { class: "filters" }, fs.map(f => h("button", { type: "button", "aria-pressed": state.filter === f[0] ? "true" : "false", onclick: () => { state.filter = f[0]; renderReport(); }, text: f[1] }))));
+    const ord = { [E.XATO]: 0, [E.OGOH]: 1, [E.KORIB]: 2 };
+    const list = c.issues.filter(x => state.filter === "all" || x.daraja === state.filter).slice().sort((a, b) => ord[a.daraja] - ord[b.daraja] || (Number(a.row) || 0) - (Number(b.row) || 0));
+    if (!list.length) { wrap.append(h("p", { class: "empty", text: "Bu turda kamchilik yo‘q." })); return wrap; }
+    const tb = h("tbody");
+    const cls = { [E.XATO]: "chip bad", [E.OGOH]: "chip warn", [E.KORIB]: "chip info" };
+    for (const x of list) tb.append(h("tr", null, h("td", { class: "n", text: x.row === "" ? "—" : x.row }), h("td", { class: "w", text: x.soz }), h("td", { text: x.ustun }),
+      h("td", null, h("span", { class: cls[x.daraja], text: x.daraja })), h("td", { text: x.xato }), h("td", { text: x.lugatda }), h("td", { text: x.tavsiya })));
+    wrap.append(h("div", { class: "scroll" }, h("table", { class: "t-err" }, h("thead", null, h("tr", null, ["Qator", "So‘z", "Ustun", "Daraja", "Xato / kamchilik", "Lug‘atda", "Tavsiya"].map(t => h("th", { text: t })))), tb)));
+    return wrap;
+  }
+  function aiCols(rec) {
+    const cols = ["turkum", "sinonim", "antonim", "giperonim", "giponim", "xolonim", "meronim"];
+    let extra = { izoh: false, misol: false };
+    if (rec.ai) for (const k in rec.ai) { if (rec.ai[k].izoh) extra.izoh = true; if (rec.ai[k].misol) extra.misol = true; }
+    return (extra.izoh ? ["izoh"] : []).concat(extra.misol ? ["misol"] : [], cols);
+  }
+  function aiTable(rec) {
+    const c = rec._c;
+    if (!hasAI(rec)) return h("p", { class: "empty", text: "AI lingvist hali ishga tushirilmagan. Turkum va munosabatlarning mazmuniy bahosi shu yerda chiqadi." });
+    const cols = aiCols(rec), tb = h("tbody");
+    c.sub.rows.forEach((r, i) => {
+      const q = rec.ai[String(r._row)], skip = c.res.notes[i].skip;
+      const tr = h("tr", null, h("td", { class: "n", text: r._row }), h("td", { class: "w", text: E.cellStr(r.soz) }));
+      if (skip || (q && q.holat && Object.keys(q).length === 1)) tr.append(h("td", { colspan: cols.length }, h("span", { class: "v skip", text: skip || q.holat })));
+      else if (!q) tr.append(h("td", { colspan: cols.length }, h("span", { class: "v skip", text: "Hali baholanmagan" })));
+      else for (const col of cols) tr.append(h("td", null, verdictCell(q[col], r[col], col)));
+      tb.append(tr);
+    });
+    return h("div", { class: "scroll" }, h("table", { class: "t-ai" }, h("thead", null, h("tr", null, ["Qator", "So‘z"].concat(cols.map(k => E.UZ[k])).map(t => h("th", { text: t })))), tb));
+  }
+  function wordTable(c) {
+    const tb = h("tbody");
+    for (const w of c.res.wordTable) {
+      const st = w[7], cl = st === "To‘liq" ? "st-ok" : (st === "Ortiqcha qator bor" || st === "Boshqa maqola ishlangan" ? "st-warn" : "st-bad");
+      tb.append(h("tr", null, h("td", { class: "w", text: w[0] }), h("td", { text: w[1] }), h("td", { text: w[2] }), h("td", { class: "n", text: w[3] }), h("td", { class: "n", text: w[4] }), h("td", { class: "n", text: w[5] }), h("td", { class: "n", text: w[6] }), h("td", { class: cl, text: st })));
+    }
+    return h("div", { class: "scroll" }, h("table", null, h("thead", null, h("tr", null, ["So‘z", "Ro‘yxatda", "Lug‘at maqolasi", "Lug‘atda ma’no", "Talabada qator", "Qoldirilgan ma’no", "Bog‘lanmagan qator", "Holat"].map(t => h("th", { text: t })))), tb));
+  }
+
+  // ---------------------------------------------------------------- AI lingvist
+  function renderAIPanel(rec) {
+    const c = rec._c, run = state.aiRun && state.aiRun.key === rec.key ? state.aiRun : null;
+    const p = h("div", { class: "panel ai" });
+    const cn = c.g.aiCounts;
+    const left = h("div", null, h("h3", { text: "AI lingvist" }));
+    if (hasAI(rec)) left.append(h("div", { class: "chips", style: "margin-top:8px" }, h("span", { class: "chip ok", text: "✓ " + cn.togri + " to‘g‘ri" }), h("span", { class: "chip warn", text: "◐ " + cn.qisman + " qisman" }), h("span", { class: "chip bad", text: "✗ " + cn.notogri + " noto‘g‘ri" }),
+      h("span", { class: "chip info", text: "＋ " + cn.tavsiya + " tavsiya" }), cn.past ? h("span", { class: "chip plain", text: cn.past + " ta bahoda ishonch past" }) : null));
+    else left.append(h("p", { class: "muted", style: "margin-top:6px;max-width:70ch", text: "Har bir sinsetning turkumi, sinonim, antonim, giperonim, giponim, xolonim va meronimini mazmunan baholaydi. Lug‘atda bo‘lmasa ham to‘g‘ri bo‘lsa to‘g‘ri deydi, xato bo‘lsa tavsiya beradi." }));
+    const right = h("div", { class: "actions" });
+    if (run) right.append(h("button", { class: "btn small", type: "button", onclick: stopAI, text: "To‘xtatish" }));
+    else if (state.aiOff) { /* tugma yo'q */ }
+    else if (!state.cap.ready) right.append(h("span", { class: "muted", text: "AI ulanishi tekshirilmoqda…" }));
+    else if (!state.cap.sample) { /* mavjud emas */ }
+    else if (c.pending > 0) right.append(h("button", { class: "btn primary", type: "button", disabled: !!state.aiRun, onclick: () => runAI(rec), text: hasAI(rec) ? "Qolgan " + c.pending + " qatorni baholash" : "AI lingvist bilan baholash" }));
+    p.append(h("div", { class: "bar" }, left, right));
+    if (run) {
+      p.append(h("div", { class: "prog" }, h("i", { style: "width:" + Math.round(100 * run.done / Math.max(1, run.total)) + "%" })));
+      p.append(h("p", { class: "muted", text: run.phase === "fb" ? "Umumiy feedback yozilmoqda…" : "Baholanmoqda: " + run.done + " / " + run.total + " bo‘lak. Har bo‘lak 30–90 soniya oladi, sahifani yopmang." }));
+    } else if (state.aiOff) p.append(h("div", { class: "note warn" }, h("span", { text: state.aiOff })));
+    else if (state.cap.ready && !state.cap.sample) p.append(h("div", { class: "note warn" }, h("span", { text: "AI lingvist faqat sahifa claude.ai’da Artifact sifatida ochilganda ishlaydi. Qoidaviy tekshiruv, ball va eksport AI’siz ham ishlaydi; AI bahosini Python CLI va ai_lingvist_prompt.md orqali olish mumkin (README)." })));
+    else if (!hasAI(rec)) p.append(h("p", { class: "muted", style: "font-size:12.5px", text: "Sizning Claude hisobingizdan foydalanadi: bitta talaba uchun " + Math.ceil(c.pending / 14) + " ta so‘rov va oxirida feedback, taxminan 3–6 daqiqa. Birinchi safar ruxsat so‘raladi." }));
+    if (rec.aiMsg && !run) p.append(h("div", { class: "note warn" }, h("span", { text: rec.aiMsg })));
+    if (hasAI(rec)) p.append(h("p", { class: "muted", style: "font-size:12.5px", text: "Tavsiyalar AI fikri, lug‘atdan olingan manba emas: talabaga izoh sifatida yaraydi, UzWordNet’ga manbasiz kiritilmaydi." }));
+    return p;
+  }
+  function stopAI() { const run = state.aiRun; if (!run) return; run.stop = true; run.ctls.forEach(c => c.abort()); }
+  const AI_HIDE = new Set(["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"]);
+  async function runAI(rec) {
+    if (state.aiRun || !state.cap.sample || !rec._c) return;
+    const sample = state.cap.sample;
+    const todo = rec._c.res.aiReq.filter(q => !q._skip && !(rec.ai && rec.ai[String(q.qator)]));
+    const batches = E.aiBatches(todo, 14);
+    const run = state.aiRun = { key: rec.key, total: batches.length, done: 0, failed: 0, ctls: new Set(), stop: false, phase: "v", msg: "" };
+    rec.aiMsg = "";
+    render();
+    let next = 0;
+    async function worker() {
+      while (!run.stop && next < batches.length) {
+        const b = batches[next++], ctl = new AbortController();
+        run.ctls.add(ctl);
+        try {
+          const raw = await sample.json(E.aiPrompt(b), { signal: ctl.signal });
+          const norm = E.aiNormalize(raw, rec._c.res.aiReq);
+          rec.ai = Object.assign(rec.ai || {}, norm);
+          for (const q of b) if (!rec.ai[String(q.qator)]) rec.ai[String(q.qator)] = {};
+        } catch (e) {
+          const code = e && e.code;
+          if (code === "cancelled") { /* foydalanuvchi to'xtatdi */ }
+          else if (AI_HIDE.has(code)) { run.stop = true; state.aiOff = "AI lingvistga ruxsat berilmadi yoki u bu hisobda mavjud emas. Qoidaviy tekshiruv va ball AI’siz ishlayveradi."; }
+          else if (code === "rate_limited") { run.stop = true; run.msg = "Claude limiti: hozircha to‘xtatildi. Birozdan so‘ng «Qolgan qatorni baholash»ni bosing."; }
+          else if (code === "session_expired") { run.stop = true; run.msg = "Sessiya tugagan: claude.ai’ga qayta kiring va davom ettiring."; }
+          else run.failed++;
+        } finally {
+          run.ctls.delete(ctl); run.done++;
+          compute(rec); dbPut(rec);
+          if (state.sel === rec.key) renderReport();
+          renderRoster();
+        }
+      }
+    }
+    await Promise.all([worker(), worker()]);
+    if (!run.stop && hasAI(rec) && rec.fbSrc !== "edit" && rec._c.pending === 0) {
+      run.phase = "fb"; if (state.sel === rec.key) renderReport();
+      const ctl = new AbortController(); run.ctls.add(ctl);
+      try {
+        const r = await sample(E.feedbackPrompt(rec.name || "talaba", rec._c.res, rec._c.g, rec.ai, rec._c.fbAuto), { signal: ctl.signal });
+        if (r && r.text && r.text.trim()) { rec.fb = r.text.trim(); rec.fbSrc = "ai"; }
+      } catch (e) { if (e && AI_HIDE.has(e.code)) state.aiOff = "AI lingvistga ruxsat berilmadi."; }
+      run.ctls.delete(ctl);
+    }
+    if (run.msg) rec.aiMsg = run.msg;
+    else if (run.failed) rec.aiMsg = run.failed + " ta bo‘lak baholanmadi (javob o‘qilmadi). «Qolgan qatorni baholash» bilan qayta urinib ko‘ring.";
+    state.aiRun = null;
+    compute(rec); dbPut(rec); render();
+    setStatus(hasAI(rec) ? (rec.name ? shortName(rec.name) : rec.fileName) + ": AI lingvist bahosi tayyor." : "");
+  }
+
+  // ---------------------------------------------------------------- fayl yuklash
+  function cellVal(v) {
+    if (v == null) return null;
+    if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") return v;
+    if (v instanceof Date) return v.toISOString().slice(0, 10);
+    if (typeof v === "object") {
+      if (Array.isArray(v.richText)) return v.richText.map(t => t.text).join("");
+      if (v.result !== undefined) return cellVal(v.result);
+      if (v.text !== undefined) return cellVal(v.text);
+      if (v.error) return null;
+    }
+    return String(v);
+  }
+  async function readXlsx(file) {
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.load(await file.arrayBuffer());
+    const out = [];
+    wb.eachSheet((ws) => {
+      const grid = [], rows = Math.min(ws.rowCount, 3000), cols = Math.min(ws.columnCount, 30);
+      for (let r = 1; r <= rows; r++) { const row = ws.getRow(r), a = []; for (let c = 1; c <= cols; c++) a.push(cellVal(row.getCell(c).value)); grid.push(a); }
+      out.push({ nom: ws.name, grid });
+    });
+    return out;
+  }
+  async function addFiles(files) {
+    const list = [...files];
+    if (!list.length || !state.data) return;
+    let ok = 0, bad = [], last = null;
+    for (const f of list) {
+      setStatus("O‘qilmoqda: " + f.name + "…");
+      if (!/\.xlsx$/i.test(f.name)) { bad.push(f.name + " (faqat .xlsx qabul qilinadi)"); continue; }
+      try {
+        const varaqlar = await readXlsx(f);
+        const name = E.findStudent(f.name, Object.keys(state.data.sozlar));
+        const rec = { key: name || "?" + f.name, name: name || null, fileName: f.name, varaqlar, ai: null, fb: null, fbSrc: "auto", sample: false, at: Date.now() };
+        compute(rec);
+        if (!rec._c) { bad.push(f.name + " (" + rec.error + ")"); continue; }
+        state.recs.set(rec.key, rec); dbPut(rec); ok++; last = rec.key;
+      } catch (e) { bad.push(f.name + " (fayl ochilmadi)"); }
+    }
+    if (last) state.sel = last;
+    render();
+    setStatus((ok ? ok + " ta fayl tekshirildi. " : "") + (bad.length ? "O‘qilmadi: " + bad.join("; ") : ""), !!bad.length);
+  }
+  function assign(rec, name) {
+    if (!name || state.recs.has(name)) return;
+    state.recs.delete(rec.key); dbDel(rec.key);
+    rec.key = name; rec.name = name;
+    compute(rec); state.recs.set(name, rec); dbPut(rec); state.sel = name; render();
+  }
+  function removeRec(key) {
+    state.recs.delete(key); dbDel(key);
+    if (state.sel === key) state.sel = null;
+    render();
+  }
+  async function copyText(t) {
+    try { await navigator.clipboard.writeText(t); setStatus("Feedback nusxalandi."); }
+    catch (e) { const ta = $("#fbText"); if (ta) { ta.focus(); ta.select(); } setStatus("Matn belgilandi: Ctrl+C bilan nusxa oling."); }
+  }
+
+  // ---------------------------------------------------------------- bitta Excel
+  const XF = { bad: "FFF8D7DA", warn: "FFFFF3CD", info: "FFDDEBF7", ok: "FFE2EFDA", skip: "FFE7E6E6", head: "FF1F3864" };
+  function sheet(wb, name, head, widths) {
+    const ws = wb.addWorksheet(name, { views: [{ state: "frozen", ySplit: 1 }] });
+    ws.addRow(head);
+    ws.getRow(1).eachCell(c => { c.font = { bold: true, color: { argb: "FFFFFFFF" }, name: "Arial", size: 10 }; c.fill = { type: "pattern", pattern: "solid", fgColor: { argb: XF.head } }; c.alignment = { wrapText: true, vertical: "middle", horizontal: "center" }; });
+    widths.forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+    return ws;
+  }
+  function addRow(ws, vals, fills) {
+    const row = ws.addRow(vals);
+    row.eachCell({ includeEmpty: true }, (c, n) => {
+      c.font = { name: "Arial", size: 10 }; c.alignment = { wrapText: true, vertical: "top" };
+      if (fills && fills[n - 1]) c.fill = { type: "pattern", pattern: "solid", fgColor: { argb: fills[n - 1] } };
+    });
+    return row;
+  }
+  async function exportAll(solo) {
+    const d = state.data; if (!d) return;
+    if (solo && !solo._c) return;
+    if (!state.cap.downloads) { setStatus(state.cap.ready ? "Bu ko‘rinishda fayl saqlab bo‘lmaydi. Sahifani claude.ai ichida oching." : "Yuklab olish hali tayyor emas, bir necha soniyadan so‘ng qayta bosing.", true); return; }
+    const btn = solo ? $("#btnSolo") : $("#btnExport"); if (btn) btn.disabled = true; setStatus("Excel tayyorlanmoqda…");
+    try {
+      const wb = new ExcelJS.Workbook();
+      const set = state.set;
+      const p100 = x => x == null ? "" : Math.round(x * 100);
+      const T = solo ? [] : ["Talaba"], TW = solo ? [] : [30];
+      const um = solo ? null : sheet(wb, "Umumiy", ["Guruh", "Talaba", "Holat", "Ball", "Eng yuqori ball", "Qamrov, %", "Izoh va misol, %", "Mazmun (AI), %", "Ishlangan so‘z", "Berilgan so‘z", "Sinset qatorlari", "Kutilgan ma’nolar", "Xato", "Ogohlantirish", "Ko‘rib chiqish", "AI: to‘g‘ri", "AI: qisman", "AI: noto‘g‘ri", "AI: tavsiya", "Umumiy feedback", "Fayl"],
+        [8, 38, 26, 8, 9, 9, 10, 10, 9, 9, 9, 10, 7, 12, 11, 8, 8, 9, 8, 90, 36]);
+      if (solo) {
+        const c = solo._c, g = c.g, s = c.res.stats, nt = wb.addWorksheet("Natija");
+        nt.getColumn(1).width = 30; nt.getColumn(2).width = 100;
+        let guruh = ""; for (const gg in d.guruh) if (d.guruh[gg].includes(solo.name)) guruh = gg;
+        const rowsN = [["Sinset topshirig‘i natijasi", ""], ["Talaba", solo.name || solo.fileName], ["Guruh", guruh], ["Fayl", solo.fileName], ["", ""],
+          ["Ball", fmt(g.ball) + " / " + g.max], ["Qamrov", p100(g.qamrov) === "" ? "—" : p100(g.qamrov) + "% (lug‘atdagi " + s.expected + " ta ma’nodan " + s.covered + " tasi)"],
+          ["Izoh va misol", p100(g.sifat) + "% (" + s.rows + " qatordan " + s.cleanRows + " tasida tuzilmaviy xato yo‘q)"],
+          ["Mazmun (turkum va munosabatlar)", g.aiBor ? p100(g.ai) + "%" : "baholanmagan"],
+          ["Ishlangan so‘zlar", s.done + " / " + s.assigned], ["Ishlanmagan so‘zlar", s.missingWords.join(", ") || "—"], ["Ro‘yxatda yo‘q so‘zlar", s.extraWords.join(", ") || "—"],
+          ["Kamchiliklar", c.cnt.X + " xato, " + c.cnt.O + " ogohlantirish, " + c.cnt.K + " ko‘rib chiqish"], ["", ""],
+          ["Umumiy feedback", fbText(solo)], ["", ""],
+          ["Qanday o‘qiladi", "«Xatolar» varag‘ida har bir kamchilik qator raqami bilan: nima xato, lug‘atda qanday berilgan va nima qilish kerak. «AI lingvist» varag‘ida turkum va munosabatlar bahosi: yashil — to‘g‘ri, sariq — qisman, qizil — noto‘g‘ri, ko‘k — bo‘sh katakka tavsiya. «So‘zlar» varag‘ida har bir so‘zning lug‘atdagi ma’nolari soni va siz tuzgan sinsetlar soni."]];
+        rowsN.forEach((r, i) => { const row = nt.addRow(r); row.getCell(1).font = { bold: true, name: "Arial", size: i ? 10 : 14 }; row.getCell(2).font = { name: "Arial", size: 10, bold: r[0] === "Ball" }; row.getCell(1).alignment = { vertical: "top" }; row.getCell(2).alignment = { wrapText: true, vertical: "top" }; });
+      }
+      const xs = sheet(wb, "Xatolar", T.concat(["Qator", "So‘z", "Ustun", "Daraja", "Xato / kamchilik", "Lug‘atda", "Tavsiya"]), TW.concat([7, 16, 15, 17, 60, 55, 42]));
+      const aiCol = E.AI_COLS;
+      const as = (!solo || hasAI(solo)) ? sheet(wb, "AI lingvist", T.concat(["Qator", "So‘z", "Qator bo‘yicha izoh"], aiCol.map(k => E.UZ[k])), TW.concat([7, 14, 24, 30, 26, 22, 34, 30, 34, 34, 30, 30])) : null;
+      const ss = sheet(wb, "So‘zlar", T.concat(["So‘z", "Ro‘yxatda", "Lug‘at maqolasi", "Lug‘atda ma’nolar", "Talabada qatorlar", "Qoldirilgan ma’nolar", "Ma’noga bog‘lanmagan qatorlar", "Holat"]), TW.concat([18, 10, 18, 12, 12, 16, 16, 24]));
+      const one = (guruh, name, rec) => {
+        if (!rec) {
+          if (!um) return;
+          const noList = !d.sozlar[name];
+          addRow(um, [guruh, name, noList ? "So‘z ro‘yxati berilmagan" : "Fayl topshirilmagan", noList ? 0 : "", set.maxBall], [null, null, XF.bad]);
+          return;
+        }
+        if (!rec._c) { if (um) addRow(um, [guruh, name || rec.fileName, "Fayl o‘qilmadi: " + rec.error], [null, null, XF.bad]); return; }
+        const c = rec._c, g = c.g, s = c.res.stats, cn = g.aiCounts, label = name || rec.fileName, ai = hasAI(rec), L = solo ? [] : [label];
+        if (um) addRow(um, [guruh, label, rec.sample ? "Tekshirildi (namuna)" : "Tekshirildi", g.ball, g.max, p100(g.qamrov), p100(g.sifat), p100(g.ai), s.done, s.assigned, s.rows, s.expected == null ? "" : s.expected,
+          c.cnt.X, c.cnt.O, c.cnt.K, ai ? cn.togri : "", ai ? cn.qisman : "", ai ? cn.notogri : "", ai ? cn.tavsiya : "", fbText(rec), rec.fileName]);
+        const ord = { [E.XATO]: 0, [E.OGOH]: 1, [E.KORIB]: 2 }, fl = { [E.XATO]: XF.bad, [E.OGOH]: XF.warn, [E.KORIB]: XF.info };
+        c.issues.slice().sort((a, b) => ord[a.daraja] - ord[b.daraja] || (Number(a.row) || 0) - (Number(b.row) || 0))
+          .forEach(x => addRow(xs, L.concat([x.row, x.soz, x.ustun, x.daraja, x.xato, x.lugatda, x.tavsiya]), (solo ? [] : [null]).concat([null, null, null, fl[x.daraja]])));
+        if (ai && as) c.sub.rows.forEach((r, i) => {
+          const q = rec.ai[String(r._row)] || {}, skip = c.res.notes[i].skip || q.holat || (rec.ai[String(r._row)] ? "" : "Baholanmagan");
+          const vals = L.concat([r._row, E.cellStr(r.soz), skip]), fills = (solo ? [] : [null]).concat([null, null, skip ? XF.skip : null]);
+          for (const col of aiCol) {
+            const v = q[col], val = E.cellStr(r[col]);
+            if (!v) { vals.push(skip || col === "izoh" || col === "misol" ? "" : E.short(val, 80)); fills.push(null); continue; }
+            const lab = { togri: "✓ To‘g‘ri", qisman: "◐ Qisman to‘g‘ri", notogri: "✗ Noto‘g‘ri", tavsiya: "＋ Bo‘sh — to‘ldirish mumkin" }[v.baho];
+            const parts = [];
+            if (col !== "izoh" && col !== "misol" && !E.isEmpty(r[col])) parts.push("«" + E.short(val, 90) + "»");
+            parts.push(lab + (v.izoh ? ": " + v.izoh : ""));
+            if (v.tavsiya) parts.push("→ Tavsiya: " + v.tavsiya);
+            if (v.ishonch === "past") parts.push("(AI ishonchi past — manba bilan tekshirilsin)");
+            vals.push(parts.join("\n")); fills.push({ togri: XF.ok, qisman: XF.warn, notogri: XF.bad, tavsiya: XF.info }[v.baho]);
+          }
+          addRow(as, vals, fills);
+        });
+        c.res.wordTable.forEach(w => addRow(ss, L.concat(w), (solo ? [] : [null]).concat([null, null, null, null, null, null, null, w[7] === "To‘liq" ? XF.ok : (w[7] === "Ortiqcha qator bor" || w[7] === "Boshqa maqola ishlangan" ? XF.warn : XF.bad)])));
+      };
+      if (solo) one("", solo.name, solo);
+      else {
+        for (const g in d.guruh) for (const n of d.guruh[g]) one(g, n, state.recs.get(n));
+        for (const r of state.recs.values()) if (!r.name) one("", null, r);
+        um.autoFilter = { from: "A1", to: "U1" }; xs.autoFilter = { from: "A1", to: "H1" };
+      }
+      const mz = wb.addWorksheet("Mezon");
+      mz.getColumn(1).width = 34; mz.getColumn(2).width = 110;
+      [["Sinset topshirig‘i tekshiruvi", ""], ["Sana", new Date().toISOString().slice(0, 10)], ["Lug‘at", d.lugat_nomi], ["", ""],
+        ["Ball", `Eng yuqori ball ${set.maxBall}. Uch qismning og‘irlikli o‘rtachasi: qamrov ${set.wQamrov}, izoh va misol ${set.wSifat}, mazmun (AI lingvist) ${set.wAI}. AI lingvist ishga tushirilmagan talabada uchinchi qism hisobga olinmaydi.`],
+        ["Qamrov", "Talabaga berilgan so‘zlarning lug‘atdagi ma’nolaridan nechtasi uchun sinset to‘g‘ri bog‘langan. Qoida: lug‘atda nechta ma’no bo‘lsa, shuncha sinset."],
+        ["Izoh va misol", "Tuzilmaviy xatosi (XATO darajali) yo‘q qatorlar ulushi."],
+        ["Mazmun (AI lingvist)", "Turkum va munosabat kataklari: to‘g‘ri = 1, qisman = 0,5, noto‘g‘ri = 0." + (set.otEmasChiqar ? " Ot bo‘lmagan so‘zlarda giperonim, giponim, xolonim, meronim kataklari ballga qo‘shilmagan." : "")],
+        ["XATO", "Qoidaga ko‘ra aniq xato: so‘z ishlanmagan, ma’no tashlab ketilgan, birikma alohida sinset qilingan, izoh o‘rniga misol yozilgan va h.k."],
+        ["OGOHLANTIRISH", "Katta ehtimol bilan xato, o‘qituvchi qarori kerak."], ["KO‘RIB CHIQISH", "Avtomatik hal qilib bo‘lmaydigan holat."],
+        ["Eslatma", "Lug‘at matni OCR qilingan baza, ayrim signallar noto‘g‘ri bo‘lishi mumkin. AI tavsiyalari — AI fikri, lug‘at manbasi emas."]]
+        .forEach((r, i) => { const row = mz.addRow(r); row.getCell(1).font = { bold: true, name: "Arial", size: i ? 10 : 14 }; row.getCell(2).font = { name: "Arial", size: 10 }; row.getCell(2).alignment = { wrapText: true, vertical: "top" }; });
+      const buf = await wb.xlsx.writeBuffer();
+      const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const fname = solo ? (solo.name ? shortName(solo.name).replace(/\s+/g, "_") : solo.fileName.replace(/\.xlsx$/i, "")) + "_sinset_natija.xlsx"
+        : "Sinset_tekshiruv_" + new Date().toISOString().slice(0, 10) + ".xlsx";
+      await state.cap.downloads.save({ filename: fname, data: blob });
+      setStatus(fname + " saqlandi.");
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "declined") setStatus("Saqlash bekor qilindi.");
+      else if (code === "rate_limited") setStatus("Saqlash oynasi ochiq yoki juda tez bosildi. Birozdan so‘ng qayta urining.", true);
+      else if (code) setStatus("Bu ko‘rinishda fayl saqlab bo‘lmadi (" + code + ").", true);
+      else setStatus("Excel tuzishda xato: " + (e && e.message ? e.message : e), true);
+    } finally { if (btn) btn.disabled = false; }
+  }
+
+
+  // ---------------------------------------------------------------- Word jadval (umumlashtirilgan baholash jadvali)
+  function titleName(full) {
+    return String(full || "").split(/\s+/).filter(Boolean).map(t => {
+      const l = t.toLowerCase();
+      if (l === "qizi" || /^o.g.li$/.test(l)) return l;
+      return t.charAt(0) + t.slice(1).toLowerCase();
+    }).join(" ");
+  }
+  const KAMCHILIK = [
+    ["So‘z ishlan-magan", x => x.soz_yoq],
+    ["Boshqa so‘z / maqola", x => x.soz_ortiqcha + x.boshqa_maqola],
+    ["Ma’no tushib qolgan", x => x.mano_yoq],
+    ["Ortiqcha sinset", x => x.birikma + x.mano_takror],
+    ["Izoh mos emas", x => x.izoh_misol + x.izoh_topilmadi + x.izoh_bosh],
+    ["Misol mos emas", x => x.misol_boshqa + x.misol_takror + x.misol_sozsiz + x.misol_bosh],
+    ["Turkum xato", x => x.turkum_bosh + x.turkum_nostd + x.turkum_farq + x.ai_turkum],
+    ["Sinonim xato", x => x.sin_ozi + x.ai_sinonim],
+    ["Antonim xato", x => x.ai_antonim],
+    ["Munosabat aralash", x => x.sin_gip + x.rel_takror],
+    ["Giperonim / giponim xato", x => x.ai_giperonim + x.ai_giponim],
+    ["Xolonim / meronim xato", x => x.ai_xolonim + x.ai_meronim],
+    ["Bo‘sh katak", x => x.katak_bosh],
+  ];
+  const AI_KAM = new Set(["Turkum xato", "Sinonim xato", "Antonim xato", "Giperonim / giponim xato", "Xolonim / meronim xato"]);
+  function kodCounts(rec) {
+    const c = {};
+    for (const x of rec._c.issues) c[x.kod] = (c[x.kod] || 0) + 1;
+    if (hasAI(rec)) for (const row in rec.ai) for (const col of E.AI_COLS) { const v = rec.ai[row][col]; if (v && v.baho === "notogri") c["ai_" + col] = (c["ai_" + col] || 0) + 1; }
+    return new Proxy(c, { get: (o, p) => o[p] || 0 });
+  }
+  const xe = (t) => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const FONT = '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>';
+  function wp(text, o) {
+    o = o || {};
+    const rpr = FONT + (o.b ? "<w:b/>" : "") + (o.i ? "<w:i/>" : "") + '<w:sz w:val="' + (o.sz || 20) + '"/>';
+    const lines = String(text == null ? "" : text).split("\n");
+    const runs = lines.map((l, i) => (i ? "<w:r><w:br/></w:r>" : "") + "<w:r><w:rPr>" + rpr + '</w:rPr><w:t xml:space="preserve">' + xe(l) + "</w:t></w:r>").join("");
+    return '<w:p><w:pPr><w:spacing w:before="' + (o.before || 0) + '" w:after="' + (o.after || 0) + '"/>' + (o.jc ? '<w:jc w:val="' + o.jc + '"/>' : "") + (o.keep ? "<w:keepNext/>" : "") + "</w:pPr>" + runs + "</w:p>";
+  }
+  function wtc(text, w, o) {
+    o = o || {};
+    return '<w:tc><w:tcPr><w:tcW w:w="' + w + '" w:type="dxa"/>' + (o.fill ? '<w:shd w:val="clear" w:color="auto" w:fill="' + o.fill + '"/>' : "") + '<w:vAlign w:val="' + (o.va || "center") + '"/></w:tcPr>' +
+      wp(text, { b: o.b, i: o.i, sz: o.sz || 19, jc: o.jc || "center" }) + "</w:tc>";
+  }
+  function wtbl(widths, rows) {
+    const total = widths.reduce((a, b) => a + b, 0);
+    const bd = (n) => "<w:" + n + ' w:val="single" w:sz="4" w:space="0" w:color="7F7F7F"/>';
+    return '<w:tbl><w:tblPr><w:tblW w:w="' + total + '" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>' + ["top", "left", "bottom", "right", "insideH", "insideV"].map(bd).join("") +
+      '</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="70" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="70" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>' +
+      widths.map(w => '<w:gridCol w:w="' + w + '"/>').join("") + "</w:tblGrid>" + rows.join("") + "</w:tbl>";
+  }
+  const wtr = (cells, head) => "<w:tr>" + (head ? "<w:trPr><w:tblHeader/><w:cantSplit/></w:trPr>" : "<w:trPr><w:cantSplit/></w:trPr>") + cells.join("") + "</w:tr>";
+  const HF = "D9E2F3", TF = "F2F2F2";
+  const BAHO_FILL = { "5": "C6EFCE", "4": "DDEBF7", "3": "FFEB9C", "2": "F8CBAD" };
+  function bahoBer(p) { const r = Math.round(p * 10) / 10; return r >= 90 ? "5" : r >= 70 ? "4" : r >= 50 ? "3" : "2"; }
+  function buildWordXml(recs, d) {
+    const body = [];
+    body.push(wp("Sinset (WordNet) topshirig‘i bo‘yicha talabalar ishini tekshirish", { b: true, sz: 28, jc: "center" }));
+    body.push(wp("UMUMLASHTIRILGAN BAHOLASH JADVALI", { b: true, sz: 28, jc: "center", after: 120 }));
+    body.push(wp("Tekshiruv sanasi: " + new Date().toLocaleDateString("uz-UZ") + ". Manba: " + d.lugat_nomi + ". Topshirganlar: " + recs.length + " nafar.", { sz: 20, jc: "center", after: 200, i: true }));
+
+    // 1-jadval
+    body.push(wp("1. Talabalar bo‘yicha natija", { b: true, sz: 24, after: 100, keep: true }));
+    const W1 = [450, 2700, 750, 950, 950, 950, 950, 900, 900, 900, 1150, 950, 1100, 850];
+    const H1 = ["№", "Talaba", "Guruh", "Ishlangan so‘z", "Sinset qatorlari", "Kutilgan ma’no", "To‘g‘ri sinsetlar", "Xato sinsetlar", "Xato ulushi", "Qamrov", "Kamchiliklar (xato / ogoh.)", "Mazmun (AI)", "Umumiy ko‘rsatkich", "Baho"];
+    const rows1 = [wtr(H1.map((t, i) => wtc(t, W1[i], { b: true, fill: HF })), true)];
+    const tot = { files: 0, rows: 0, exp: 0, ok: 0, bad: 0, cov: 0, X: 0, O: 0, done: 0, asg: 0 };
+    recs.forEach((r, i) => {
+      const c = r._c, s = c.res.stats, g = c.g, bad = s.rows - s.cleanRows;
+      let gr = ""; for (const k in d.guruh) if (d.guruh[k].includes(r.name)) gr = k;
+      tot.rows += s.rows; tot.exp += s.expected || 0; tot.ok += s.cleanRows; tot.bad += bad; tot.cov += s.covered; tot.X += c.cnt.X; tot.O += c.cnt.O; tot.done += s.done; tot.asg += s.assigned;
+      const cells = [String(i + 1), titleName(r.name) || r.fileName, gr, s.done + " / " + s.assigned, String(s.rows), s.expected == null ? "—" : String(s.expected), String(s.cleanRows), String(bad),
+        (s.rows ? (100 * bad / s.rows).toFixed(1).replace(".", ",") : "0") + "%", g.qamrov == null ? "—" : Math.round(g.qamrov * 100) + "%", c.cnt.X + " / " + c.cnt.O, g.aiBor ? Math.round(g.ai * 100) + "%" : "—", (s.rows ? (100 - 100 * bad / s.rows).toFixed(1).replace(".", ",") : "0") + "%", bahoBer(s.rows ? 100 - 100 * bad / s.rows : 0)];
+      rows1.push(wtr(cells.map((t, j) => wtc(t, W1[j], { jc: j === 1 ? "left" : "center", b: j === 13, fill: j === 13 ? BAHO_FILL[t] : null }))));
+    });
+    rows1.push(wtr([wtc("", W1[0], { fill: TF }), wtc("JAMI", W1[1], { b: true, fill: TF, jc: "left" }), wtc("", W1[2], { fill: TF }), wtc(tot.done + " / " + tot.asg, W1[3], { b: true, fill: TF }),
+      wtc(String(tot.rows), W1[4], { b: true, fill: TF }), wtc(String(tot.exp), W1[5], { b: true, fill: TF }), wtc(String(tot.ok), W1[6], { b: true, fill: TF }), wtc(String(tot.bad), W1[7], { b: true, fill: TF }),
+      wtc((tot.rows ? (100 * tot.bad / tot.rows).toFixed(1).replace(".", ",") : "0") + "%", W1[8], { b: true, fill: TF }), wtc(tot.exp ? Math.round(100 * tot.cov / tot.exp) + "%" : "—", W1[9], { b: true, fill: TF }),
+      wtc(tot.X + " / " + tot.O, W1[10], { b: true, fill: TF }), wtc("", W1[11], { fill: TF }), wtc((tot.rows ? (100 - 100 * tot.bad / tot.rows).toFixed(1).replace(".", ",") : "0") + "%", W1[12], { b: true, fill: TF }), wtc("", W1[13], { fill: TF })]));
+    body.push(wtbl(W1, rows1));
+    body.push(wp("Izoh: «To‘g‘ri sinsetlar» — tuzilmaviy xatosi yo‘q qatorlar; «Xato ulushi» — xatoli qatorlarning barcha qatorlarga nisbati; «Qamrov» — talabaga berilgan so‘zlarning izohli lug‘atdagi ma’nolaridan nechtasiga sinset tuzilgani; «Mazmun (AI)» — turkum va semantik munosabatlarning AI lingvist bahosi (to‘g‘ri = 1, qisman = 0,5); «Umumiy ko‘rsatkich» = 100% − xato ulushi. Baholash mezoni (umumiy ko‘rsatkich bo‘yicha): 90–100% — 5; 70–89,9% — 4; 50–69,9% — 3; 50% dan past — 2.", { i: true, sz: 18, before: 80, after: 240 }));
+
+    // 2-jadval
+    body.push(wp("2. Kamchilik turlari bo‘yicha taqsimot", { b: true, sz: 24, after: 100, keep: true }));
+    const W2 = [450, 2700].concat(KAMCHILIK.map(() => 920));
+    const rows2 = [wtr(["№", "Talaba"].concat(KAMCHILIK.map(k => k[0])).map((t, i) => wtc(t, W2[i], { b: true, fill: HF, sz: 17 })), true)];
+    const sum = KAMCHILIK.map(() => 0);
+    recs.forEach((r, i) => {
+      const kc = kodCounts(r), ai = hasAI(r);
+      const vals = KAMCHILIK.map((k, j) => { const v = k[1](kc); sum[j] += v; return (AI_KAM.has(k[0]) && !ai && v === 0) ? "—" : String(v); });
+      rows2.push(wtr([wtc(String(i + 1), W2[0]), wtc(titleName(r.name) || r.fileName, W2[1], { jc: "left" })].concat(vals.map((v, j) => wtc(v, W2[j + 2])))));
+    });
+    rows2.push(wtr([wtc("", W2[0], { fill: TF }), wtc("JAMI", W2[1], { b: true, fill: TF, jc: "left" })].concat(sum.map((v, j) => wtc(String(v), W2[j + 2], { b: true, fill: TF })))));
+    body.push(wtbl(W2, rows2));
+    body.push(wp("Izoh: bir qatorda bir nechta kamchilik bo‘lishi mumkin, shuning uchun bu jadvaldagi yig‘indi xato sinsetlar sonidan katta. Turkum, sinonim, antonim, giperonim/giponim va xolonim/meronim ustunlari AI lingvist bahosini ham o‘z ichiga oladi; AI ishga tushirilmagan talabada bu ustunlar «—».", { i: true, sz: 18, before: 80, after: 240 }));
+
+    // 3. topshirmaganlar
+    const yoq = [], royxatsiz = [];
+    for (const k in d.guruh) for (const n of d.guruh[k]) { if (state.recs.has(n) && state.recs.get(n)._c) continue; (d.sozlar[n] ? yoq : royxatsiz).push(titleName(n) + " (" + k + ")"); }
+    if (yoq.length || royxatsiz.length) {
+      body.push(wp("3. Topshirmagan talabalar", { b: true, sz: 24, after: 100, keep: true }));
+      if (yoq.length) body.push(wp("Fayl topshirmagan (" + yoq.length + "): " + yoq.join(", ") + ".", { sz: 20, after: 80 }));
+      if (royxatsiz.length) body.push(wp("So‘z ro‘yxati berilmagan (" + royxatsiz.length + "): " + royxatsiz.join(", ") + ".", { sz: 20, after: 80 }));
+    }
+    const sect = '<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="851" w:right="851" w:bottom="851" w:left="851" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr>';
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>' + body.join("") + sect + "</w:body></w:document>";
+  }
+  async function buildDocxBlob(recs, d) {
+    const zip = new JSZip();
+    zip.file("[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+    zip.file("_rels/.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+    zip.file("word/document.xml", buildWordXml(recs, d));
+    return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+  }
+  async function exportWord() {
+    const d = state.data; if (!d) return;
+    const recs = [...state.recs.values()].filter(r => r._c && r.name);
+    if (!recs.length) { setStatus("Avval talabalarning fayllarini yuklang — jadval yuklangan topshiriqlardan tuziladi.", true); return; }
+    if (!state.cap.downloads) { setStatus(state.cap.ready ? "Bu ko‘rinishda fayl saqlab bo‘lmaydi. Sahifani claude.ai ichida oching." : "Yuklab olish hali tayyor emas, bir necha soniyadan so‘ng qayta bosing.", true); return; }
+    if (typeof JSZip === "undefined") { setStatus("Word kutubxonasi yuklanmadi. Sahifani qayta oching.", true); return; }
+    recs.sort((a, b) => { const fa = (a._c.res.stats.rows - a._c.res.stats.cleanRows) / Math.max(1, a._c.res.stats.rows), fb = (b._c.res.stats.rows - b._c.res.stats.cleanRows) / Math.max(1, b._c.res.stats.rows); return fa - fb || b._c.g.ball - a._c.g.ball; });
+    const btn = $("#btnWord"); btn.disabled = true; setStatus("Word jadval tayyorlanmoqda…");
+    try {
+      const blob = await buildDocxBlob(recs, d);
+      const fname = "Sinset_baholash_jadvali_" + new Date().toISOString().slice(0, 10) + ".docx";
+      await state.cap.downloads.save({ filename: fname, data: blob });
+      setStatus(fname + " saqlandi (" + recs.length + " talaba).");
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "declined") setStatus("Saqlash bekor qilindi.");
+      else if (code) setStatus("Bu ko‘rinishda fayl saqlab bo‘lmadi (" + code + ").", true);
+      else setStatus("Word tuzishda xato: " + (e && e.message ? e.message : e), true);
+    } finally { btn.disabled = false; }
+  }
+
+  // ---------------------------------------------------------------- sozlamalar
+  function fillSet() { $("#setMax").value = state.set.maxBall; $("#setQ").value = state.set.wQamrov; $("#setS").value = state.set.wSifat; $("#setA").value = state.set.wAI; $("#setOt").checked = !!state.set.otEmasChiqar; }
+  function readSet() {
+    const n = (id, def, min) => { const v = parseFloat($(id).value); return isFinite(v) && v >= min ? v : def; };
+    state.set.maxBall = n("#setMax", 100, 1); state.set.wQamrov = n("#setQ", 40, 0); state.set.wSifat = n("#setS", 20, 0); state.set.wAI = n("#setA", 40, 0);
+    state.set.otEmasChiqar = $("#setOt").checked;
+    saveSet(); for (const r of state.recs.values()) compute(r); render();
+  }
+  function render() { renderRoster(); renderReport(); }
+
+  // ---------------------------------------------------------------- ishga tushirish
+  ["#setMax", "#setQ", "#setS", "#setA", "#setOt"].forEach(id => $(id).addEventListener("change", readSet));
+  $("#btnDefaults").addEventListener("click", () => { state.set = Object.assign({}, E.DEFAULTS); fillSet(); readSet(); });
+  $("#btnClear").addEventListener("click", () => { $("#clearAsk").hidden = false; });
+  $("#btnClearNo").addEventListener("click", () => { $("#clearAsk").hidden = true; });
+  $("#btnClearYes").addEventListener("click", () => { state.recs.clear(); dbClear(); state.sel = null; $("#clearAsk").hidden = true; render(); setStatus("Barcha natijalar o‘chirildi."); });
+  $("#btnPick").addEventListener("click", () => $("#fileInput").click());
+  $("#fileInput").addEventListener("change", (e) => { addFiles(e.target.files); e.target.value = ""; });
+  $("#btnExport").addEventListener("click", () => exportAll(null));
+  $("#btnWord").addEventListener("click", exportWord);
+  const drop = $("#drop");
+  ["dragenter", "dragover"].forEach(ev => document.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => document.addEventListener(ev, (e) => { e.preventDefault(); if (ev === "drop" || e.target === document.documentElement || !e.relatedTarget) drop.classList.remove("over"); }));
+  document.addEventListener("drop", (e) => { if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files); });
+  fillSet(); render();
+
+  (async function boot() {
+    try {
+      const r = await fetch("data.json"); state.data = await r.json();
+    } catch (e) { setStatus("Lug‘at ma’lumotlari yuklanmadi. Sahifani qayta oching.", true); return; }
+    const saved = (await dbAll()) || [];
+    for (const rec of saved) { compute(rec); state.recs.set(rec.key, rec); }
+    if (!saved.length) {
+      try {
+        const nam = await (await fetch("namuna.json")).json();
+        const name = E.findStudent(nam.fayl, Object.keys(state.data.sozlar));
+        const rec = { key: name || "?" + nam.fayl, name, fileName: nam.fayl, varaqlar: nam.varaqlar, ai: null, fb: null, fbSrc: "auto", sample: true, at: 0 };
+        compute(rec);
+        if (rec._c) { rec.ai = E.aiNormalize(nam.ai, rec._c.res.aiReq); for (const q of rec._c.res.aiReq) if (!q._skip && !rec.ai[String(q.qator)]) rec.ai[String(q.qator)] = {}; compute(rec); state.recs.set(rec.key, rec); }
+      } catch (e) {}
+    }
+    const first = [...state.recs.values()].sort((a, b) => b.at - a.at)[0];
+    state.sel = first ? first.key : null;
+    render();
+  })();
+  (async function caps() {
+    const cl = window.claude;
+    if (cl && typeof cl.use === "function") {
+      const [s, d] = await Promise.all([cl.use("sample").catch(() => null), cl.use("downloads").catch(() => null)]);
+      state.cap.sample = s || null; state.cap.downloads = d || null;
+    }
+    if (!state.cap.downloads) state.cap.downloads = { save: async ({ filename, data }) => {
+      const url = URL.createObjectURL(data instanceof Blob ? data : new Blob([data]));
+      const a = document.createElement("a"); a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000); return { status: "saved" };
+    } };
+    state.cap.ready = true;
+    if (state.data) renderReport();
+  })();
+})();
+</script>
+
+</body>
+</html>
