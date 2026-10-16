@@ -153,6 +153,7 @@ select { border: 1px solid var(--line); border-radius: 6px; background: var(--bg
       <p class="lead">Talabaning Excel faylini yuklang: har bir sinset izohli lug‘at bilan solishtiriladi, ball va umumiy feedback chiqadi. Oxirida hamma natija bitta Excel faylga yig‘iladi.</p>
     </div>
     <div class="actions">
+      <button class="btn" id="btnMerge" type="button">Birlashtirilgan sinsetlar (tuzatilgan)</button>
       <button class="btn" id="btnWord" type="button">Word jadval (barcha topshirganlar)</button>
       <button class="btn primary" id="btnExport" type="button">Bitta Excel qilib yuklab olish</button>
     </div>
@@ -182,6 +183,7 @@ select { border: 1px solid var(--line); border-radius: 6px; background: var(--bg
       <label>Mazmun: turkum va munosabatlar (AI lingvist bahosi) <input type="number" id="setA" min="0" max="100" step="1"></label>
     </div>
     <label class="check"><input type="checkbox" id="setOt"> <span>Ot bo‘lmagan so‘zlarda (sifat, ravish, fe’l…) giperonim, giponim, xolonim va meronim kataklarini ballga qo‘shmaslik. Shablon barcha ustunni to‘ldirishga undagani uchun bu xatolar hisobotda ko‘rsatiladi, lekin balni tushirmaydi.</span></label>
+    <label class="check"><input type="checkbox" id="setAiFix"> <span>Birlashtirilgan sinsetlarda AI lingvist «noto‘g‘ri» degan turkum va munosabat kataklarini AI tavsiyasi bilan almashtirish. O‘chirilsa, AI tavsiyalari faqat alohida ustunda turadi, talaba qiymati o‘zgarmaydi.</span></label>
     <div class="setfoot">
       <button class="btn small" id="btnDefaults" type="button">Standart mezonga qaytarish</button>
       <button class="btn small danger" id="btnClear" type="button">Barcha natijalarni o‘chirish</button>
@@ -810,18 +812,173 @@ select { border: 1px solid var(--line); border-radius: 6px; background: var(--bg
     } finally { btn.disabled = false; }
   }
 
+  // ---------------------------------------------------------------- birlashtirilgan va tuzatilgan sinsetlar
+  function normApos(t) {
+    if (t == null) return t;
+    return String(t).replace(/ /g, " ").replace(/([oOgG])['‘’`´ʼʹ]/g, "$1ʻ").replace(/(\p{L})['‘’`´ʹ](?=\p{L})/gu, "$1ʼ").replace(/\s+/g, " ").trim();
+  }
+  const POS_CODE = { "Ot": "n", "Fe'l": "v", "Sifat": "a", "Ravish": "r" };
+  function dictExample(s) {
+    if (!s || !s.e) return "";
+    let t = s.e.replace(/(^|[.!?…])\s*(?:ish|shi|shish|shsh|shia|mm|sh)\s+(?=[A-ZА-ЯЎҚҒҲ«"(—-])/g, "$1 ").trim();
+    const parts = t.split(/(?<=[.!?…])\s+(?=[A-ZА-ЯЎҚҒҲ«"(—-])/);
+    let out = "";
+    for (const p of parts) { out = out ? out + " " + p : p; if (out.length >= 45) break; }
+    return E.short(out, 260);
+  }
+  function relItems(v) { return E.isEmpty(v) ? [] : String(v).replace(/ /g, " ").split(/[;,]/).map(x => x.trim()).filter(x => x && x !== "-"); }
+  function buildMerged(recs, d, set) {
+    const out = new Map(), removed = [], perStu = [];
+    const groupOf = (n) => { for (const k in d.guruh) if (d.guruh[k].includes(n)) return k; return ""; };
+    const REL = ["sinonim", "antonim", "giperonim", "giponim", "xolonim", "meronim"];
+    for (const rec of recs) {
+      const c = rec._c, rows = c.sub.rows, notes = c.res.notes, ai = hasAI(rec) ? rec.ai : {};
+      const name = titleName(rec.name), gr = groupOf(rec.name);
+      const st = { name, gr, asl: 0, tuz: 0, lug: 0, chiq: 0 };
+      const iss = new Map();
+      for (const x of c.issues) if (typeof x.row === "number") { if (!iss.has(x.row)) iss.set(x.row, new Set()); iss.get(x.row).add(x.kod); }
+      const usedEntries = new Set();
+      rows.forEach((r, i) => {
+        const n = notes[i], soz = E.cellStr(r.soz), k = iss.get(r._row) || new Set();
+        const drop = (why) => { removed.push([name, gr, r._row, soz, why]); st.chiq++; };
+        if (n.skip) return drop(n.skip);
+        if (!n.used || !d.lugat[n.used]) return drop("So‘z lug‘at bazasida topilmadi");
+        if (n.kind === "misol" || n.kind === "yo'q" || n.senseN == null) return drop("Izoh lug‘atdagi birorta ma’noga bog‘lanmadi (lug‘at ma’nosi alohida qo‘shiladi)");
+        const ent = d.lugat[n.used], s = ent.s.find(x => x.n === n.senseN), key = n.used + "#" + n.senseN;
+        usedEntries.add(n.used);
+        if (out.has(key)) return drop("Shu ma’no uchun sinset allaqachon bor (takror)");
+        const row = { lemma: n.used, n: n.senseN, talaba: name, guruh: gr, asl: r._row, manba: "Izohli lug‘at, " + n.senseN + "-ma’no", changed: new Set(), fix: [], aiNote: [] };
+        for (const col of ["sinonim", "izoh", "misol", "turkum", "soha", "antonim", "giperonim", "giponim", "xolonim", "meronim"]) row[col] = E.cellStr(r[col]);
+        const ch = (col, what) => { row.changed.add(col); row.fix.push(what); };
+        // izoh
+        if (E.isEmpty(row.izoh)) { row.izoh = s.g; ch("izoh", "izoh lug‘atdan olindi"); }
+        // misol
+        if (k.has("misol_boshqa") || k.has("misol_sozsiz") || k.has("misol_bosh") || k.has("misol_takror")) {
+          const ex = dictExample(s);
+          if (ex) { row.misol = ex; ch("misol", "misol lug‘atdagi shu ma’no misoli bilan almashtirildi"); }
+        }
+        // turkum
+        const posStd = E.POS_OK[E.normWord(row.turkum)];
+        let expect = n.used.endsWith("moq") ? "Fe'l" : (ent.l.length === 1 ? ent.l[0] : null);
+        if (posStd && posStd !== row.turkum) { row.turkum = posStd; }
+        if (expect && k.has("turkum_farq")) { ch("turkum", "turkum lug‘at belgisiga ko‘ra: " + row.turkum + " → " + expect); row.turkum = expect; }
+        else if (E.isEmpty(row.turkum) && expect) { row.turkum = expect; ch("turkum", "turkum lug‘at belgisidan qo‘yildi"); }
+        // munosabatlar: qoidaviy tuzatishlar
+        const it = {}; for (const col of REL) it[col] = relItems(row[col]);
+        const nw = E.normWord;
+        const without = (col, bad, why) => {
+          const badSet = new Set(bad.map(nw)); const keep = it[col].filter(x => !badSet.has(nw(x)));
+          if (keep.length !== it[col].length) { const rm = it[col].filter(x => badSet.has(nw(x))); it[col] = keep; ch(col, E.UZ[col].toLowerCase() + ": «" + rm.join(", ") + "» olib tashlandi (" + why + ")"); }
+        };
+        without("sinonim", [n.used, r._w || ""], "so‘zning o‘zi");
+        without("giperonim", it.sinonim, "sinonim bilan bir xil");
+        without("giponim", it.sinonim, "sinonim bilan bir xil");
+        without("antonim", it.sinonim, "sinonim bilan bir xil");
+        without("xolonim", it.giponim.concat(it.giperonim), "tur–jins munosabatining takrori");
+        without("meronim", it.giponim.concat(it.xolonim), "boshqa munosabat takrori");
+        for (const col of REL) if (row.changed.has(col)) row[col] = it[col].length ? it[col].join(", ") : "-";
+        // AI lingvist
+        const q = ai[String(r._row)] || {};
+        for (const col of ["turkum"].concat(REL)) {
+          const v = q[col]; if (!v) continue;
+          const tav = (v.tavsiya || "").trim();
+          if (v.baho === "notogri" && v.ishonch !== "past" && set.aiFix !== false) {
+            if (col === "turkum") {
+              const p = E.POS_OK[E.normWord(tav)];
+              if (p && p !== row.turkum) { ch(col, "turkum: " + row.turkum + " → " + p + " (AI)"); row.turkum = p; }
+              else if (tav) row.aiNote.push("turkum: " + tav + (v.izoh ? " — " + v.izoh : ""));
+            } else {
+              const nv = tav && tav !== "-" && tav.length <= 80 ? tav : "-";
+              if (nv !== row[col]) { ch(col, E.UZ[col].toLowerCase() + ": «" + E.short(row[col], 60) + "» → «" + nv + "» (AI)"); row[col] = nv; }
+            }
+          } else if (v.baho !== "togri" && (tav || v.izoh)) row.aiNote.push(E.UZ[col].toLowerCase() + ": " + (tav && tav !== "-" ? tav : "bo‘sh qoldirish") + (v.izoh ? " — " + v.izoh : "") + (v.ishonch === "past" ? " (ishonch past)" : ""));
+        }
+        row.holat = row.fix.length ? "Tuzatilgan" : "Asl holida";
+        if (row.fix.length) st.tuz++; else st.asl++;
+        out.set(key, row);
+      });
+      // tushib qolgan ma'nolar lug'atdan
+      const words = new Set((d.sozlar[rec.name] || []).concat([...usedEntries]));
+      for (const w of words) {
+        const ent = d.lugat[w]; if (!ent) continue;
+        for (const s of ent.s) {
+          const key = w + "#" + s.n; if (out.has(key)) continue;
+          const expect = w.endsWith("moq") ? "Fe'l" : (ent.l.length === 1 ? ent.l[0] : "");
+          out.set(key, { lemma: w, n: s.n, talaba: name, guruh: gr, asl: "", manba: "Izohli lug‘at, " + s.n + "-ma’no (OCR)", changed: new Set(["izoh", "misol", "turkum"]),
+            fix: ["sinset lug‘atdan qo‘shildi — munosabatlar to‘ldirilishi kerak"], aiNote: [], sinonim: "-", izoh: s.g, misol: dictExample(s), turkum: expect, soha: "", antonim: "-", giperonim: "-", giponim: "-", xolonim: "-", meronim: "-", holat: "Lug‘atdan qo‘shilgan" });
+          st.lug++;
+        }
+      }
+      perStu.push(st);
+    }
+    const list = [...out.values()].sort((a, b) => a.lemma.localeCompare(b.lemma, "uz") || a.n - b.n);
+    return { list, removed, perStu };
+  }
+  async function exportMerged() {
+    const d = state.data; if (!d) return;
+    const recs = [...state.recs.values()].filter(r => r._c && r.name);
+    if (!recs.length) { setStatus("Avval talabalarning fayllarini yuklang.", true); return; }
+    if (!state.cap.downloads) { setStatus(state.cap.ready ? "Bu ko‘rinishda fayl saqlab bo‘lmaydi." : "Yuklab olish hali tayyor emas, bir necha soniyadan so‘ng qayta bosing.", true); return; }
+    const btn = $("#btnMerge"); btn.disabled = true; setStatus("Sinsetlar birlashtirilmoqda…");
+    try {
+      const m = buildMerged(recs, d, state.set);
+      const wb = new ExcelJS.Workbook();
+      const COLS = [["id", "Synset ID", 18], ["lemma", "So‘z", 16], ["n", "Ma’no №", 8], ["sinonim", "Sinonimlari", 24], ["izoh", "Izohi (gloss)", 46], ["misol", "Misol gap", 50], ["turkum", "Turkumi", 10],
+        ["soha", "Sohasi", 18], ["antonim", "Antonimi", 18], ["giperonim", "Giperonimi", 20], ["giponim", "Giponimlari", 26], ["xolonim", "Xolonimi", 20], ["meronim", "Meronimi", 22],
+        ["manba", "Manba", 22], ["holat", "Holat", 16], ["fix", "Tuzatishlar", 50], ["aiNote", "AI tavsiyalari (qo‘llanmagan)", 46], ["talaba", "Talaba", 30], ["guruh", "Guruh", 7], ["asl", "Asl qator", 8]];
+      const ws = sheet(wb, "Sinsetlar", COLS.map(c => c[1]), COLS.map(c => c[2]));
+      for (const r of m.list) {
+        const lemma = normApos(r.lemma);
+        r.id = lemma.replace(/\s+/g, "_") + "." + (POS_CODE[r.turkum] || "x") + "." + String(r.n).padStart(2, "0");
+        const vals = COLS.map(([k]) => {
+          if (k === "lemma") return lemma;
+          if (k === "fix" || k === "aiNote") return r[k].join("; ");
+          if (k === "n" || k === "asl" || k === "id" || k === "guruh") return r[k];
+          return normApos(r[k]);
+        });
+        const fills = COLS.map(([k]) => r.changed.has(k) ? (r.holat === "Lug‘atdan qo‘shilgan" ? XF.info : XF.warn) : null);
+        fills[14] = r.holat === "Tuzatilgan" ? XF.warn : r.holat === "Lug‘atdan qo‘shilgan" ? XF.info : XF.ok;
+        addRow(ws, vals, fills);
+      }
+      ws.autoFilter = { from: "A1", to: "T1" };
+      const rs = sheet(wb, "Chiqarilgan qatorlar", ["Talaba", "Guruh", "Asl qator", "So‘z", "Sabab"], [32, 7, 9, 18, 70]);
+      for (const x of m.removed) addRow(rs, x);
+      const xs = sheet(wb, "Xulosa", ["Talaba", "Guruh", "Asl holida", "Tuzatilgan", "Lug‘atdan qo‘shilgan", "Chiqarilgan"], [34, 8, 11, 11, 14, 12]);
+      const tot = [0, 0, 0, 0];
+      for (const p of m.perStu) { addRow(xs, [p.name, p.gr, p.asl, p.tuz, p.lug, p.chiq]); tot[0] += p.asl; tot[1] += p.tuz; tot[2] += p.lug; tot[3] += p.chiq; }
+      const tr = addRow(xs, ["JAMI", "", tot[0], tot[1], tot[2], tot[3]]); tr.font = { bold: true, name: "Arial", size: 10 };
+      xs.addRow([]);
+      [["Jami sinsetlar", m.list.length],
+        ["Qanday tuzatildi", "Lug‘atga asoslangan: bo‘sh izoh va boshqa ma’noga tegishli yoki takror misol lug‘atdagi shu ma’no matni bilan almashtirildi; turkum lug‘at belgisiga moslandi; sinonim bilan giperonim/giponim/antonim, giponim bilan xolonim takrorlari olib tashlandi; tushib qolgan ma’nolar lug‘atdan qo‘shildi; ortiqcha birikma, ro‘yxatda yo‘q so‘z va takror qatorlar chiqarildi."],
+        ["AI tuzatishlari", state.set.aiFix !== false ? "AI lingvist «noto‘g‘ri» degan (ishonchi past bo‘lmagan) kataklar AI tavsiyasi bilan almashtirildi va «(AI)» deb belgilandi. Bu tuzatishlar manbasiz: UzWordNet’ga kiritishdan oldin tekshirilsin." : "AI tavsiyalari kataklarga yozilmadi, faqat alohida ustunda."],
+        ["Belgilar", "Sariq katak — tuzatilgan; ko‘k — lug‘atdan qo‘shilgan (OCR matni, tekshirilsin); yashil holat — asl holida qoldi."],
+        ["Imlo", "Apostroflar birxillashtirildi: oʻ, gʻ (ʻ) va tutuq belgisi (ʼ)."]].forEach(rw => { const row = xs.addRow(rw); row.getCell(1).font = { bold: true, name: "Arial", size: 10 }; row.getCell(2).alignment = { wrapText: true, vertical: "top" }; row.getCell(2).font = { name: "Arial", size: 10 }; });
+      xs.getColumn(2).width = 8;
+      const buf = await wb.xlsx.writeBuffer();
+      const fname = "UzWordNet_sinsetlar_birlashtirilgan_" + new Date().toISOString().slice(0, 10) + ".xlsx";
+      await state.cap.downloads.save({ filename: fname, data: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }) });
+      setStatus(fname + " saqlandi: " + m.list.length + " sinset, " + recs.length + " talaba.");
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "declined") setStatus("Saqlash bekor qilindi.");
+      else if (code) setStatus("Bu ko‘rinishda fayl saqlab bo‘lmadi (" + code + ").", true);
+      else setStatus("Birlashtirishda xato: " + (e && e.message ? e.message : e), true);
+    } finally { btn.disabled = false; }
+  }
+
   // ---------------------------------------------------------------- sozlamalar
-  function fillSet() { $("#setMax").value = state.set.maxBall; $("#setQ").value = state.set.wQamrov; $("#setS").value = state.set.wSifat; $("#setA").value = state.set.wAI; $("#setOt").checked = !!state.set.otEmasChiqar; }
+  function fillSet() { $("#setMax").value = state.set.maxBall; $("#setQ").value = state.set.wQamrov; $("#setS").value = state.set.wSifat; $("#setA").value = state.set.wAI; $("#setOt").checked = !!state.set.otEmasChiqar; $("#setAiFix").checked = state.set.aiFix !== false; }
   function readSet() {
     const n = (id, def, min) => { const v = parseFloat($(id).value); return isFinite(v) && v >= min ? v : def; };
     state.set.maxBall = n("#setMax", 100, 1); state.set.wQamrov = n("#setQ", 40, 0); state.set.wSifat = n("#setS", 20, 0); state.set.wAI = n("#setA", 40, 0);
     state.set.otEmasChiqar = $("#setOt").checked;
+    state.set.aiFix = $("#setAiFix").checked;
     saveSet(); for (const r of state.recs.values()) compute(r); render();
   }
   function render() { renderRoster(); renderReport(); }
 
   // ---------------------------------------------------------------- ishga tushirish
-  ["#setMax", "#setQ", "#setS", "#setA", "#setOt"].forEach(id => $(id).addEventListener("change", readSet));
+  ["#setMax", "#setQ", "#setS", "#setA", "#setOt", "#setAiFix"].forEach(id => $(id).addEventListener("change", readSet));
   $("#btnDefaults").addEventListener("click", () => { state.set = Object.assign({}, E.DEFAULTS); fillSet(); readSet(); });
   $("#btnClear").addEventListener("click", () => { $("#clearAsk").hidden = false; });
   $("#btnClearNo").addEventListener("click", () => { $("#clearAsk").hidden = true; });
@@ -830,6 +987,7 @@ select { border: 1px solid var(--line); border-radius: 6px; background: var(--bg
   $("#fileInput").addEventListener("change", (e) => { addFiles(e.target.files); e.target.value = ""; });
   $("#btnExport").addEventListener("click", () => exportAll(null));
   $("#btnWord").addEventListener("click", exportWord);
+  $("#btnMerge").addEventListener("click", exportMerged);
   const drop = $("#drop");
   ["dragenter", "dragover"].forEach(ev => document.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
   ["dragleave", "drop"].forEach(ev => document.addEventListener(ev, (e) => { e.preventDefault(); if (ev === "drop" || e.target === document.documentElement || !e.relatedTarget) drop.classList.remove("over"); }));

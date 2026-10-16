@@ -82,6 +82,9 @@ o‘zida (IndexedDB) saqlanadi va hech qayerga yuborilmaydi. Tugmalar:
 - **Talaba uchun Excel** — faqat shu talabaning bali, feedbacki va xatolari;
 - **Bitta Excel qilib yuklab olish** — barcha talabalar bitta faylda;
 - **Word jadval** — umumlashtirilgan baholash jadvali va kamchilik turlari bo‘yicha taqsimot.
+- **Birlashtirilgan sinsetlar (tuzatilgan)** — barcha talabalarning sinsetlari bitta Excelda: lug‘atga asoslangan tuzatishlar,
+  tushib qolgan ma’nolar lug‘atdan qo‘shilgan, ortiqcha qatorlar chiqarilgan; har bir o‘zgarish «Tuzatishlar» ustunida,
+  AI tuzatishlari «(AI)» deb belgilangan (sozlamalarda o‘chirish mumkin).
 
 AI lingvist tugmasi sahifa claude.ai’da Artifact sifatida ochilganda ishlaydi (Claude so‘rovlari foydalanuvchi hisobidan).
 Oddiy brauzerda qoidaviy tekshiruv, ball va barcha eksportlar ishlaydi.
